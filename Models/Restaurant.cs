@@ -1,5 +1,6 @@
 namespace TacoTuesdayThursday.Models
 {
+    // Using EntityFramework Core, generate a model class to be used with our RestaurantsController.
     public class Restaurant
     {
         public int Id { get; set; }
