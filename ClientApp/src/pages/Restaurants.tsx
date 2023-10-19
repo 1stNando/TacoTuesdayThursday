@@ -14,18 +14,11 @@ export function Restaurants() {
   const { data: restaurants = [] } = useQuery<RestaurantType[]>(
     ['restaurants', filterText],
     async function () {
-      // Example of a longer way to approach.
-      // let url = '/api/restaurants'
-
-      // if (filterText.length !== 0) {
-      //   url = `/api/restaurants?filter=${filterText}`
-      // }
-      const url =
+      const response = await fetch(
         filterText.length === 0
           ? '/api/restaurants'
           : `/api/restaurants?filter=${filterText}`
-
-      const response = await fetch(url)
+      )
 
       // Do not await here... We want to return the promise.
       return response.json()
