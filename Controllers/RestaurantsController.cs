@@ -36,8 +36,8 @@ namespace TacoTuesdayThursday.Controllers
             }
             else
             {
-                // Return the filtered list of restaurants for the "search" bar. 
-                return await _context.Restaurants.Where(restaurant => restaurant.Name.ToLower().Contains(filter.ToLower())).ToListAsync();
+                // Return the filtered list for "SEARCH" bar. 
+                return await _context.Restaurants.Where(restaurant => restaurant.Name.ToLower().Contains(filter.ToLower()) || restaurant.Address.ToLower().Contains(filter.ToLower())).ToListAsync();
             }
         }
 

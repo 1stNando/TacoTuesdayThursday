@@ -21,11 +21,10 @@ export function Restaurants() {
       )
 
       // Do not await here... We want to return the promise.
+
       return response.json()
     }
   )
-
-  console.log({ restaurants })
 
   return (
     <main className="home">
