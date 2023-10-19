@@ -14,11 +14,16 @@ export function Restaurants() {
   const { data: restaurants = [] } = useQuery<RestaurantType[]>(
     ['restaurants', filterText],
     async function () {
-      let url = '/api/restaurants'
+      // Example of a longer way to approach.
+      // let url = '/api/restaurants'
 
-      if (filterText.length !== 0) {
-        url = `/api/restaurants?filter=${filterText}`
-      }
+      // if (filterText.length !== 0) {
+      //   url = `/api/restaurants?filter=${filterText}`
+      // }
+      const url =
+        filterText.length === 0
+          ? '/api/restaurants'
+          : `/api/restaurants?filter=${filterText}`
 
       const response = await fetch(url)
 
