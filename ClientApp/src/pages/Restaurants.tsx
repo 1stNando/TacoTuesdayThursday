@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import tacoTuesday from '../images/taco-tuesday.svg'
 import map from '../images/map.png'
 import { RestaurantType } from '../types'
@@ -7,14 +7,22 @@ import { useQuery } from 'react-query'
 import { SingleRestaurantFromList } from '../components/SingleRestaurantFromList'
 
 export function Restaurants() {
-  //???const [restaurants, setRestaurants] = useState([])
+  // Start of search bar abilities.
+  const [filterText, setFilterText] = useState('')
 
   //Part where USE REACT QUERY: to load all restaurants. This LOADS data at start.
   const { data: restaurants = [] } = useQuery<RestaurantType[]>(
-    'restaurants',
+    ['restaurants', filterText],
     async function () {
-      const response = await fetch('/api/restaurants')
+      let url = '/api/restaurants'
 
+      if (filterText.length !== 0) {
+        url = `/api/restaurants?filter=${filterText}`
+      }
+
+      const response = await fetch(url)
+
+      // Do not await here... We want to return the promise.
       return response.json()
     }
   )
@@ -27,7 +35,14 @@ export function Restaurants() {
         <img src={tacoTuesday} alt="Taco Tuesday" />
       </h1>
       <form className="search">
-        <input type="text" placeholder="Search..." />
+        <input
+          type="text"
+          placeholder="Search..."
+          value={filterText}
+          onChange={function (event) {
+            setFilterText(event.target.value)
+          }}
+        />
       </form>
 
       <section className="map">
