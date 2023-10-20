@@ -20,7 +20,9 @@ export function App() {
           </li>
         </ul>
       </header>
+
       <Restaurants />
+
       <footer>
         <p>
           Built with <i className="fa fa-heart"></i> in St Petersburg, Florida.

@@ -9,6 +9,10 @@ using TacoTuesdayThursday.Models;
 
 namespace TacoTuesdayThursday.Controllers
 {
+
+    // All of these routes will be at the base URL:     /api/Restaurants
+    // That is what "api/[controller]" means below. It uses the name of the controller
+    // in this case RestaurantsController to determine the URL
     [Route("api/[controller]")]
     [ApiController]
     public class RestaurantsController : ControllerBase
