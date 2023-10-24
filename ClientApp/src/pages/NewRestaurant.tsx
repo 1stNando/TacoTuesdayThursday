@@ -1,6 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { RestaurantType } from '../types'
 
 export function NewRestaurant() {
+  // Day 2 start: Create a state to track a new restaurant creation.
+  const [newRestaurant, setNewRestaurant] = useState<RestaurantType>({
+    id: undefined,
+    name: '',
+    description: '',
+    address: '',
+    telephone: '',
+  })
+
   return (
     <main className="page">
       <nav>
@@ -12,7 +22,12 @@ export function NewRestaurant() {
       <form action="#">
         <p className="form-input">
           <label htmlFor="name">Name</label>
-          <input type="text" name="name" />
+          <input
+            type="text"
+            name="name"
+            value={newRestaurant.name}
+            onChange={handleName}
+          />
         </p>
         <p className="form-input">
           <label htmlFor="description">Description</label>

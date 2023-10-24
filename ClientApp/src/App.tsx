@@ -1,6 +1,7 @@
 import React from 'react'
 import { Restaurants } from './pages/Restaurants'
 import avatar from './images/avatar.png'
+import { NewRestaurant } from './pages/NewRestaurant'
 
 export function App() {
   return (
@@ -21,7 +22,7 @@ export function App() {
         </ul>
       </header>
 
-      <Restaurants />
+      <NewRestaurant />
 
       <footer>
         <p>
