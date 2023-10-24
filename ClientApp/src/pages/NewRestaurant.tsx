@@ -11,6 +11,14 @@ export function NewRestaurant() {
     telephone: '',
   })
 
+  function handleAddress(event: React.ChangeEvent<HTMLTextAreaElement>) {
+    const newAddressText = event.target.value
+
+    const updatedRestaurant = { ...newRestaurant, address: newAddressText }
+
+    setNewRestaurant(updatedRestaurant)
+  }
+
   return (
     <main className="page">
       <nav>
@@ -38,7 +46,11 @@ export function NewRestaurant() {
         </p>
         <p className="form-input">
           <label htmlFor="name">Address</label>
-          <textarea name="address"></textarea>
+          <textarea
+            name="address"
+            value={newRestaurant.address}
+            onChange={handleAddress}
+          ></textarea>
         </p>
         <p className="form-input">
           <label htmlFor="name">Telephone</label>
