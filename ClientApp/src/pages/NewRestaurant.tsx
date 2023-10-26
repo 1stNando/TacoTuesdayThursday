@@ -1,5 +1,17 @@
 import React, { useState } from 'react'
 import { RestaurantType } from '../types'
+import { useMutation } from 'react-query'
+
+// We will send new data to the API, returns a promise. Ties in with submitting form new restaurant.
+async function submitNewRestaurant(restaurantToCreate: RestaurantType) {
+  const response = await fetch('/api/Restaurants', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(restaurantToCreate),
+  })
+
+  return response.json()
+}
 
 export function NewRestaurant() {
   // Day 2 start: Create a state to track a new restaurant creation.
@@ -10,6 +22,15 @@ export function NewRestaurant() {
     address: '',
     telephone: '',
   })
+
+  // Submitting the form:
+  const createNewRestaurant = useMutation(submitNewRestaurant)
+
+  async function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    createNewRestaurant.mutate(newRestaurant)
+  }
 
   // Making a more generic function to handle ANY change in the input field. The event will be of <HTMLInputElement | HTMLTextAreaElement>.
   // This works specifically with the <input type="text" name="name"> of our input forms. CLEVER example of input field formatting with an onChange on the textarea. By naming the inputs in this way.
@@ -24,6 +45,18 @@ export function NewRestaurant() {
     setNewRestaurant(updatedRestaurant)
   }
 
+  // This version is able to handle a number input field instead of a string. E.g: max capacity of restaurant.
+  // function handleNumberFieldChange(
+  //   event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) {
+  //   const value = Number(event.target.value)
+  //   const fieldName = event.target.name
+
+  //   const updatedRestaurant = { ...newRestaurant, [fieldName]: value }
+
+  //   setNewRestaurant(updatedRestaurant)
+  // }
+
   return (
     <main className="page">
       <nav>
@@ -32,7 +65,7 @@ export function NewRestaurant() {
         </a>
         <h2>Add a Restaurant</h2>
       </nav>
-      <form action="#">
+      <form onSubmit={handleFormSubmit}>
         <p className="form-input">
           <label htmlFor="name">Name</label>
           <input
