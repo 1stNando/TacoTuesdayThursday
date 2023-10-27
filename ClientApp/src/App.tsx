@@ -1,5 +1,5 @@
 import React from 'react'
-import { Restaurants } from './pages/Restaurants'
+//import { Restaurants } from './pages/Restaurants'
 import avatar from './images/avatar.png'
 //import { NewRestaurant } from './pages/NewRestaurant'
 
@@ -22,7 +22,12 @@ export function App() {
         </ul>
       </header>
 
-      <Restaurants />
+      {/* <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Restaurants />} />
+          <Route path="/new" element={<NewRestaurant />} />
+        </Routes>
+      </BrowserRouter> */}
 
       <footer>
         <p>
