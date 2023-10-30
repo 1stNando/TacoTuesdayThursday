@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { RestaurantType } from '../types'
 import { useMutation } from 'react-query'
+import { useNavigate } from 'react-router-dom'
+import { Restaurants } from './Restaurants'
 
 // We will send new data to the API, returns a promise. Ties in with submitting form new restaurant.
 async function submitNewRestaurant(restaurantToCreate: RestaurantType) {
@@ -23,7 +25,9 @@ export function NewRestaurant() {
     telephone: '',
   })
 
-  // Submitting the form:
+  // history, minute 44:12 in second video.
+
+  // Submitting the form: useMutation takes in an object, and an optional ,{function} to execute after mutation. We wanted to useHistory to navigate back to the "home" page. But was unable to so far.
   const createNewRestaurant = useMutation(submitNewRestaurant)
 
   async function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
