@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { RestaurantType } from '../types'
+import { APIError, RestaurantType } from '../types'
 import { useMutation } from 'react-query'
-import { useNavigate } from 'react-router-dom'
-import { Restaurants } from './Restaurants'
+// import { useNavigate } from 'react-router-dom'
+// import { Restaurants } from './Restaurants'
 
 // We will send new data to the API, returns a promise. Ties in with submitting form new restaurant.
 async function submitNewRestaurant(restaurantToCreate: RestaurantType) {
@@ -12,7 +12,12 @@ async function submitNewRestaurant(restaurantToCreate: RestaurantType) {
     body: JSON.stringify(restaurantToCreate),
   })
 
-  return response.json()
+  // deals with logic to throw an error message if user tries to submit a new restaurant without the required fields.
+  if (response.ok) {
+    return response.json()
+  } else {
+    throw await response.json()
+  }
 }
 
 export function NewRestaurant() {
@@ -25,10 +30,17 @@ export function NewRestaurant() {
     telephone: '',
   })
 
-  // history, minute 44:12 in second video.
+  // 1:00:30 minute. Setting a state to track an error message upon required field input on new restaurant.
+  const [errorMessage, setErrorMessage] = useState('')
 
   // Submitting the form: useMutation takes in an object, and an optional ,{function} to execute after mutation. We wanted to useHistory to navigate back to the "home" page. But was unable to so far.
-  const createNewRestaurant = useMutation(submitNewRestaurant)
+  const createNewRestaurant = useMutation(submitNewRestaurant, {
+    onError: function (apiError: APIError) {
+      const newMessage = Object.values(apiError.errors).join(' ')
+
+      setErrorMessage(newMessage)
+    },
+  })
 
   async function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()

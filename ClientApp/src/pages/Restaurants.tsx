@@ -6,6 +6,8 @@ import { RestaurantType } from '../types'
 import { useQuery } from 'react-query'
 import { SingleRestaurantFromList } from '../components/SingleRestaurantFromList'
 
+import avatar from '../images/avatar.png'
+
 export function Restaurants() {
   // Start of search bar abilities.
   const [filterText, setFilterText] = useState('')

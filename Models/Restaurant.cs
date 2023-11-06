@@ -11,9 +11,10 @@ namespace TacoTuesdayThursday.Models
         public string Name { get; set; }
 
         public string Description { get; set; }
-        [Required(ErrorMessage = "You must provide an address.")]
 
+        [Required(ErrorMessage = "You must provide an address.")]
         public string Address { get; set; }
+
         public string Telephone { get; set; }
     }
 }

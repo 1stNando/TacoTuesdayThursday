@@ -10,7 +10,7 @@ import { NewRestaurant } from './pages/NewRestaurant'
 
 const queryClient = new QueryClient()
 
-const router = createBrowserRouter([
+const routingObject = createBrowserRouter([
   {
     path: '/',
     element: <Restaurants />,
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
 ReactDOM.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <RouterProvider router={routingObject} />
       <App />
     </QueryClientProvider>
   </React.StrictMode>,

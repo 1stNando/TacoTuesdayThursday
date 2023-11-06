@@ -15,3 +15,17 @@ export type RestaurantType = {
   address: string
   telephone: string
 }
+
+export type NewUserType = {
+  fullName: string
+  email: string
+  password: string
+}
+
+export type APIError = {
+  errors: Record<string, string[]>
+  status: number
+  title: string
+  traceId: string
+  type: string
+}

@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using TacoTuesday.Models;
 
 namespace TacoTuesdayThursday.Models
 {
@@ -15,6 +16,11 @@ namespace TacoTuesdayThursday.Models
 
         // Add database tables here!!!!
         public DbSet<Restaurant> Restaurants { get; set; }
+        // Tell the context about the Review collection/table
+        public DbSet<Review> Reviews { get; set; }
+
+        // table for Users
+        public DbSet<User> Users { get; set; }
 
         // Rarely do we have to touch this
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
