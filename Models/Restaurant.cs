@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using TacoTuesday.Models;
 
 namespace TacoTuesdayThursday.Models
 {
@@ -16,5 +18,7 @@ namespace TacoTuesdayThursday.Models
         public string Address { get; set; }
 
         public string Telephone { get; set; }
+
+        public List<Review> Reviews { get; set; }
     }
 }

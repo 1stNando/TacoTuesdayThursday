@@ -1,14 +1,42 @@
 import React from 'react'
-import { CSSStarsProperties } from '../types'
+import { CSSStarsProperties, RestaurantType } from '../types'
+import { useParams } from 'react-router-dom'
+import { useQuery } from 'react-query'
+//import format from 'date-fns/format'
+
+async function loadOneRestaurant(id: string | undefined) {
+  const response = await fetch(`/api/restaurants/${id}`)
+
+  if (response.ok) {
+    return response.json()
+  } else {
+    throw await response.json()
+  }
+}
+
+const NullRestaurant: RestaurantType = {
+  name: '',
+  address: '',
+  description: '',
+  telephone: '',
+  reviews: [],
+}
 
 export function Restaurant() {
+  const { id } = useParams<{ id: string }>()
+  const { data: restaurant = NullRestaurant } = useQuery<RestaurantType>(
+    ['one-restaurant', id],
+    () => loadOneRestaurant(id)
+  )
+
   return (
+    // This is the view of  ONE RESTAURANT, showing the reviews and star ratings. SINGLE VIEW PAGE.
     <main className="page">
       <nav>
         <a href="/">
           <i className="fa fa-home"></i>
         </a>
-        <h2>Loli&apos;s Mexican Cravings</h2>
+        <h2>{restaurant.name}</h2>
       </nav>
       <p>
         <span
@@ -16,49 +44,34 @@ export function Restaurant() {
           style={{ '--rating': 4.7 } as CSSStarsProperties}
           aria-label="Star rating of this location is 4.7 out of 5."
         ></span>
-        (2,188)
+        ({restaurant.reviews.length})
       </p>
-      <address>8005 Benjamin Rd, Tampa, FL 33634</address>
+      <address>{restaurant.address}</address>
       <hr />
-      <h3>Reviews for Loli&apos;s Mexican Cravings</h3>
+      <h3>Reviews for {restaurant.name}</h3>
       <ul className="reviews">
-        <li>
-          <div className="author">
-            Gavin said: <em>Really good.</em>
-          </div>
-          <div className="body">
-            <p>Yummy!</p>
-          </div>
-          <div className="meta">
-            <span
-              className="stars"
-              style={{ '--rating': 3.2 } as CSSStarsProperties}
-              aria-label="Star rating of this location is 4.7 out of 5."
-            ></span>
-            <time>Tuesday, July 7th, 2020 at 3:10 AM</time>
-          </div>
-        </li>
-        <li>
-          <div className="author">
-            Jason said: <em>The tameles are to die for!</em>
-          </div>
-          <div className="body">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur,
-              a? Voluptatibus quibusdam ratione ex minima corporis fugiat
-              accusamus, atque, magni laboriosam voluptate molestiae expedita,
-              reprehenderit perferendis! Fuga aspernatur aut minus.
-            </p>
-          </div>
-          <div className="meta">
-            <span
-              className="stars"
-              style={{ '--rating': 4.7 } as CSSStarsProperties}
-              aria-label="Star rating of this location is 4.7 out of 5."
-            ></span>
-            <time>Tuesday, July 7th, 2020 at 3:10 AM</time>
-          </div>
-        </li>
+        {restaurant.reviews.map((review) => (
+          <li key={review.id}>
+            <div className="author">
+              Gavin said: <em>{review.summary}</em>
+            </div>
+            <div className="body">
+              <p>{review.body}</p>
+            </div>
+            <div className="meta">
+              <span
+                className="stars"
+                style={{ '--rating': review.stars } as CSSStarsProperties}
+                aria-label={`Star rating of this location is ${review.stars} out of 5.`}
+              ></span>
+              <time>
+                {/* {review.createdAt
+                  ? format(new Date(review.createdAt), dateFormat)
+                  : null} */}
+              </time>
+            </div>
+          </li>
+        ))}
       </ul>
       <h3>Enter your own review</h3>
       <form action="#">

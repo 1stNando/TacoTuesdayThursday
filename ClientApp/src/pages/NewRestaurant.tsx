@@ -21,6 +21,8 @@ async function submitNewRestaurant(restaurantToCreate: RestaurantType) {
 }
 
 export function NewRestaurant() {
+  // 1:00:30 minute. Setting a state to track an error message upon required field input on new restaurant.
+  const [errorMessage, setErrorMessage] = useState('')
   // Day 2 start: Create a state to track a new restaurant creation.
   const [newRestaurant, setNewRestaurant] = useState<RestaurantType>({
     id: undefined,
@@ -28,10 +30,8 @@ export function NewRestaurant() {
     description: '',
     address: '',
     telephone: '',
+    reviews: [],
   })
-
-  // 1:00:30 minute. Setting a state to track an error message upon required field input on new restaurant.
-  const [errorMessage, setErrorMessage] = useState('')
 
   // Submitting the form: useMutation takes in an object, and an optional ,{function} to execute after mutation. We wanted to useHistory to navigate back to the "home" page. But was unable to so far.
   const createNewRestaurant = useMutation(submitNewRestaurant, {
@@ -82,6 +82,7 @@ export function NewRestaurant() {
         <h2>Add a Restaurant</h2>
       </nav>
       <form onSubmit={handleFormSubmit}>
+        {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
         <p className="form-input">
           <label htmlFor="name">Name</label>
           <input

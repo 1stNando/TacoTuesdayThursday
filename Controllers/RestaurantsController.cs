@@ -20,7 +20,7 @@ namespace TacoTuesdayThursday.Controllers
         // This is the variable you use to have access to your database
         private readonly DatabaseContext _context;
 
-        // Constructor that recives a reference to your database context
+        // Constructor that receives a reference to your database context
         // and stores it in _context for you to use in your API methods
         public RestaurantsController(DatabaseContext context)
         {
@@ -32,16 +32,20 @@ namespace TacoTuesdayThursday.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Restaurant>>> GetRestaurants(string filter)
         {
-            // Uses the database context in `_context` to request all of the Restaurants, sort
             // them by row id and return them as a JSON array.
             if (filter == null)
             {
-                return await _context.Restaurants.OrderBy(row => row.Id).ToListAsync();
+                return await _context.Restaurants.
+                OrderBy(restaurant => restaurant.Id).
+                Include(restaurant => restaurant.Reviews).
+                ToListAsync();
             }
             else
             {
-                // Return the filtered list for "SEARCH" bar. 
-                return await _context.Restaurants.Where(restaurant => restaurant.Name.ToLower().Contains(filter.ToLower()) || restaurant.Address.ToLower().Contains(filter.ToLower())).ToListAsync();
+                return await _context.Restaurants.OrderBy(restaurant => restaurant.Id).
+                Where(restaurant => restaurant.Name.Contains(filter)).
+                Include(restaurant => restaurant.Reviews).
+                ToListAsync();
             }
         }
 
@@ -51,7 +55,12 @@ namespace TacoTuesdayThursday.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Restaurant>> GetRestaurant(int id)
         {
-            var restaurant = await _context.Restaurants.FindAsync(id);
+
+
+            // Find the restaurant in the database using Include to ensure we have the associated reviews
+
+            var restaurant = await _context.Restaurants.Include(restaurant => restaurant.Reviews).Where(restaurant => restaurant.Id == id).FirstOrDefaultAsync();
+
 
             if (restaurant == null)
             {
