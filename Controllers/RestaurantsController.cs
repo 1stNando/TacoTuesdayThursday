@@ -28,24 +28,26 @@ namespace TacoTuesdayThursday.Controllers
         }
 
         // GET: api/Restaurants
-        // Return a list of all your Restaurants
+        // Return a list of all your Restaurants. Restaurant API should return their associated reviews.
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Restaurant>>> GetRestaurants(string filter)
         {
-            // them by row id and return them as a JSON array.
+            // Uses the database context in `_context` to request all of the Restaurants, 
+            // sort them by row id and return them as a JSON array.
             if (filter == null)
             {
                 return await _context.Restaurants.
-                OrderBy(restaurant => restaurant.Id).
-                Include(restaurant => restaurant.Reviews).
-                ToListAsync();
+                    OrderBy(restaurant => restaurant.Id).
+                    Include(restaurant => restaurant.Reviews).
+                    ToListAsync();
             }
             else
             {
-                return await _context.Restaurants.OrderBy(restaurant => restaurant.Id).
-                Where(restaurant => restaurant.Name.Contains(filter)).
-                Include(restaurant => restaurant.Reviews).
-                ToListAsync();
+                return await _context.Restaurants.
+                    OrderBy(restaurant => restaurant.Id).
+                    Where(restaurant => restaurant.Name.Contains(filter)).
+                    Include(restaurant => restaurant.Reviews).
+                    ToListAsync();
             }
         }
 
@@ -59,11 +61,15 @@ namespace TacoTuesdayThursday.Controllers
 
             // Find the restaurant in the database using Include to ensure we have the associated reviews
 
-            var restaurant = await _context.Restaurants.Include(restaurant => restaurant.Reviews).Where(restaurant => restaurant.Id == id).FirstOrDefaultAsync();
+            var restaurant = await _context.Restaurants.
+                Where(restaurant => restaurant.Id == id).
+                Include(restaurant => restaurant.Reviews).
+                FirstOrDefaultAsync();
 
-
+            // If we didn't find anything, we receive a `null` in return
             if (restaurant == null)
             {
+                // Return a `404` to the client if we could not find a restaurant with this id. 
                 return NotFound();
             }
 

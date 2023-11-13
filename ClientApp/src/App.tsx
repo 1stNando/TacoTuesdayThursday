@@ -4,13 +4,6 @@ import avatar from './images/avatar.png'
 import { Route, Routes } from 'react-router-dom'
 import { Restaurants } from './pages/Restaurants'
 import { NewRestaurant } from './pages/NewRestaurant'
-//import { Restaurants } from './pages/Restaurants'
-// import { Route, Routes } from 'react-router-dom'
-// import { NewRestaurant } from './pages/NewRestaurant'
-
-//import { NewRestaurant } from './pages/NewRestaurant'
-// import { Link, Outlet } from 'react-router-dom'
-//import { NewRestaurant } from './pages/NewRestaurant'
 
 export function App() {
   return (

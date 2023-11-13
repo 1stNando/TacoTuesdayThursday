@@ -1,7 +1,7 @@
-import React from 'react'
-import { CSSStarsProperties, RestaurantType } from '../types'
+import React, { useState } from 'react'
+import { CSSStarsProperties, RestaurantType, ReviewType } from '../types'
 import { useParams } from 'react-router-dom'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 //import format from 'date-fns/format'
 
 async function loadOneRestaurant(id: string | undefined) {
@@ -14,7 +14,23 @@ async function loadOneRestaurant(id: string | undefined) {
   }
 }
 
+// Handles the submission of a new review to the api.
+async function submitNewReview(review: ReviewType) {
+  const response = await fetch(`/api/Reviews`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(review),
+  })
+
+  if (response.ok) {
+    return response.json()
+  } else {
+    throw await response.json()
+  }
+}
+
 const NullRestaurant: RestaurantType = {
+  // id: undefined,
   name: '',
   address: '',
   description: '',
@@ -22,12 +38,50 @@ const NullRestaurant: RestaurantType = {
   reviews: [],
 }
 
+// Define the date format to be used when submitting new reviews.
+// const dateFormat = `EEEE, MMMM do, yyyy 'at' h:mm aaa`
+
 export function Restaurant() {
   const { id } = useParams<{ id: string }>()
+
   const { data: restaurant = NullRestaurant } = useQuery<RestaurantType>(
     ['one-restaurant', id],
     () => loadOneRestaurant(id)
   )
+
+  // define the shape of the state we need to track for new reviews to be sent.
+  const [newReview, setNewReview] = useState<ReviewType>({
+    body: '',
+    stars: 5,
+    summary: '',
+    restaurantId: Number(id),
+  })
+
+  const createNewReview = useMutation(submitNewReview, {
+    onSuccess: function () {
+      // refetch()
+      setNewReview({
+        ...newReview,
+        body: '',
+        stars: 5,
+        summary: '',
+      })
+    },
+  })
+
+  // Write a function to deal with text field change in new review
+  function handleNewReviewTextFieldChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    const name = event.target.name
+    const value = event.target.value
+
+    setNewReview({ ...newReview, [name]: value })
+  }
+
+  function handleStarRadioButton(newStars: number) {
+    setNewReview({ ...newReview, stars: newStars })
+  }
 
   return (
     // This is the view of  ONE RESTAURANT, showing the reviews and star ratings. SINGLE VIEW PAGE.
@@ -53,7 +107,7 @@ export function Restaurant() {
         {restaurant.reviews.map((review) => (
           <li key={review.id}>
             <div className="author">
-              Gavin said: <em>{review.summary}</em>
+              Fernando said: <em>{review.summary}</em>
             </div>
             <div className="body">
               <p>{review.body}</p>
@@ -64,20 +118,27 @@ export function Restaurant() {
                 style={{ '--rating': review.stars } as CSSStarsProperties}
                 aria-label={`Star rating of this location is ${review.stars} out of 5.`}
               ></span>
-              <time>
-                {/* {review.createdAt
-                  ? format(new Date(review.createdAt), dateFormat)
-                  : null} */}
-              </time>
+              <time>{review.createdAt}</time>
             </div>
           </li>
         ))}
       </ul>
+      {/* //////////////////////////////////// */}
       <h3>Enter your own review</h3>
-      <form action="#">
+      <form
+        onSubmit={function (event) {
+          event.preventDefault()
+          createNewReview.mutate(newReview)
+        }}
+      >
         <p className="form-input">
           <label htmlFor="summary">Summary</label>
-          <input type="text" name="summary" />
+          <input
+            type="text"
+            name="summary"
+            value={newReview.summary}
+            onChange={handleNewReviewTextFieldChange}
+          />
           <span className="note">
             Enter a brief summary of your review. Example:{' '}
             <strong>Great food, good prices.</strong>
@@ -85,18 +146,57 @@ export function Restaurant() {
         </p>
         <p className="form-input">
           <label htmlFor="body">Review</label>
-          <textarea name="body"></textarea>
+          <textarea
+            name="body"
+            value={newReview.body}
+            onChange={handleNewReviewTextFieldChange}
+          ></textarea>
         </p>
         <div className="rating">
-          <input id="star-rating-1" type="radio" name="stars" value="1" />
+          <input
+            id="star-rating-1"
+            type="radio"
+            name="stars"
+            value="1"
+            checked={newReview.stars === 1}
+            onChange={() => handleStarRadioButton(1)}
+          />
           <label htmlFor="star-rating-1">1 star</label>
-          <input id="star-rating-2" type="radio" name="stars" value="2" />
+          <input
+            id="star-rating-2"
+            type="radio"
+            name="stars"
+            value="2"
+            checked={newReview.stars === 2}
+            onChange={() => handleStarRadioButton(2)}
+          />
           <label htmlFor="star-rating-2">2 stars</label>
-          <input id="star-rating-3" type="radio" name="stars" value="3" />
+          <input
+            id="star-rating-3"
+            type="radio"
+            name="stars"
+            value="3"
+            checked={newReview.stars === 3}
+            onChange={() => handleStarRadioButton(3)}
+          />
           <label htmlFor="star-rating-3">3 stars</label>
-          <input id="star-rating-4" type="radio" name="stars" value="4" />
+          <input
+            id="star-rating-4"
+            type="radio"
+            name="stars"
+            value="4"
+            checked={newReview.stars === 4}
+            onChange={() => handleStarRadioButton(4)}
+          />
           <label htmlFor="star-rating-4">4 stars</label>
-          <input id="star-rating-5" type="radio" name="stars" value="5" />
+          <input
+            id="star-rating-5"
+            type="radio"
+            name="stars"
+            value="5"
+            checked={newReview.stars === 5}
+            onChange={() => handleStarRadioButton(5)}
+          />
           <label htmlFor="star-rating-5">5 stars</label>
 
           <div className="star-rating">
