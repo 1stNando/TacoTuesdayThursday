@@ -32,6 +32,7 @@ namespace TacoTuesdayThursday
             // Use NewtonsoftJson to avoid JSON cyclical loops
             services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
+            //AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -88,6 +89,8 @@ namespace TacoTuesdayThursday
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+
 
             app.UseStaticFiles();
 

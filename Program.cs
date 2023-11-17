@@ -27,6 +27,8 @@ namespace TacoTuesdayThursday
 
             var task = host.RunAsync();
 
+
+
             Utilities.Notify("TacoTuesdayThursday Running!");
 
             Console.WriteLine("You must also have the ClientApp running. In a separate terminal, run:");

@@ -22,7 +22,7 @@ export type ReviewType = {
   summary: string
   body: string
   stars: number
-  createdAt?: Date | string
+  createdAt?: string
   restaurantId: number
 }
 
