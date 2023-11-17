@@ -44,10 +44,10 @@ const NullRestaurant: RestaurantType = {
 export function Restaurant() {
   const { id } = useParams<{ id: string }>()
 
-  const { data: restaurant = NullRestaurant } = useQuery<RestaurantType>(
-    ['one-restaurant', id],
-    () => loadOneRestaurant(id)
-  )
+  const { refetch, data: restaurant = NullRestaurant } =
+    useQuery<RestaurantType>(['one-restaurant', id], () =>
+      loadOneRestaurant(id)
+    )
 
   // define the shape of the state we need to track for new reviews to be sent.
   const [newReview, setNewReview] = useState<ReviewType>({
@@ -57,9 +57,10 @@ export function Restaurant() {
     restaurantId: Number(id),
   })
 
+  // This clears out the new restaurant fields upon submission.
   const createNewReview = useMutation(submitNewReview, {
     onSuccess: function () {
-      // refetch()
+      refetch()
       setNewReview({
         ...newReview,
         body: '',
@@ -102,6 +103,7 @@ export function Restaurant() {
       </p>
       <address>{restaurant.address}</address>
       <hr />
+      {/* ////////////////////////////////////////Reviews found in one restaurant view./////////////////////////// */}
       <h3>Reviews for {restaurant.name}</h3>
       <ul className="reviews">
         {restaurant.reviews.map((review) => (
@@ -123,7 +125,7 @@ export function Restaurant() {
           </li>
         ))}
       </ul>
-      {/* //////////////////////////////////// */}
+      {/* ////////////////////////////////////Bottom section where the user can BEGIN TO WRITE a new review. */}
       <h3>Enter your own review</h3>
       <form
         onSubmit={function (event) {
@@ -152,6 +154,7 @@ export function Restaurant() {
             onChange={handleNewReviewTextFieldChange}
           ></textarea>
         </p>
+        {/* ///////////////////// Neat little "star" bar to select your review rating.////////////////// */}
         <div className="rating">
           <input
             id="star-rating-1"
