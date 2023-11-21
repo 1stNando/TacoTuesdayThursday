@@ -28,7 +28,7 @@ namespace TacoTuesdayThursday.Models
         // Tell the context about the Review collection/table
         public DbSet<Review> Reviews { get; set; }
 
-        // table for Users
+        // table for Users. Tells the context about User collection/table. 
         public DbSet<User> Users { get; set; }
 
         // Rarely do we have to touch this

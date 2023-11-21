@@ -13,10 +13,11 @@ namespace TacoTuesday.Models
         public string Email { get; set; }
         [JsonIgnore]
         public string HashedPassword { get; set; }
+
         // Define a property for being able to _set_ a password
         public string Password
         {
-            // Define only the `set` aspect of the property
+            // Define only the `set` aspect of the property. Custom SETTER. 
             set
             {
                 // When set, use the PasswordHasher to encrypt the password
@@ -24,6 +25,7 @@ namespace TacoTuesday.Models
                 this.HashedPassword = new PasswordHasher<User>().HashPassword(this, value);
             }
         }
+
         // Add a method that can validate this user's password
         public bool IsValidPassword(string password)
         {
