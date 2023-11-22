@@ -7,14 +7,17 @@ namespace TacoTuesday.Models
     public class User
     {
         public int Id { get; set; }
+
         [Required(ErrorMessage = "You must provide your name.")]
         public string FullName { get; set; }
+
         [Required(ErrorMessage = "You must provide your email.")]
         public string Email { get; set; }
+
         [JsonIgnore]
         public string HashedPassword { get; set; }
 
-        // Define a property for being able to _set_ a password
+        // Define a property for being able to _set_ a password. 
         public string Password
         {
             // Define only the `set` aspect of the property. Custom SETTER. 
@@ -26,7 +29,11 @@ namespace TacoTuesday.Models
             }
         }
 
+        // Define the behavior we need. 
         // Add a method that can validate this user's password
+        // e.g.: 
+        // bool isLoggedIn = someUserObject.IsValidPassword("sekret"); // false
+        // bool isLoggedIn = someUserObject.IsValidPassword("secret"); // true
         public bool IsValidPassword(string password)
         {
             // Look to see if this password, and the user's hashed password can match

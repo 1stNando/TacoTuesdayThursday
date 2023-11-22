@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { APIError, RestaurantType } from '../types'
 import { useMutation } from 'react-query'
+import { useNavigate } from 'react-router'
 // import { useNavigate } from 'react-router-dom'
 // import { Restaurants } from './Restaurants'
 
@@ -33,8 +34,12 @@ export function NewRestaurant() {
     reviews: [],
   })
 
+  const history = useNavigate()
   // Submitting the form: useMutation takes in an object, and an optional ,{function} to execute after mutation. We wanted to useHistory to navigate back to the "home" page. But was unable to so far.
   const createNewRestaurant = useMutation(submitNewRestaurant, {
+    onSuccess: function () {
+      history('/')
+    },
     onError: function (apiError: APIError) {
       const newMessage = Object.values(apiError.errors).join(' ')
 
@@ -60,18 +65,6 @@ export function NewRestaurant() {
 
     setNewRestaurant(updatedRestaurant)
   }
-
-  // This version is able to handle a number input field instead of a string. E.g: max capacity of restaurant.
-  // function handleNumberFieldChange(
-  //   event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) {
-  //   const value = Number(event.target.value)
-  //   const fieldName = event.target.name
-
-  //   const updatedRestaurant = { ...newRestaurant, [fieldName]: value }
-
-  //   setNewRestaurant(updatedRestaurant)
-  // }
 
   return (
     <main className="page">

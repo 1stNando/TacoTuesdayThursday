@@ -9,6 +9,7 @@ import { NewRestaurant } from './pages/NewRestaurant'
 import { Restaurant } from './pages/Restaurant'
 
 import './index.scss'
+import { SignUp } from './pages/SignUp'
 
 const queryClient = new QueryClient()
 
@@ -24,6 +25,10 @@ const routingObject = createBrowserRouter([
   {
     path: '/restaurants/:id',
     element: <Restaurant />,
+  },
+  {
+    path: '/signup',
+    element: <SignUp />,
   },
 ])
 

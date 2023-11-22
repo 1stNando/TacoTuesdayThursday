@@ -4,6 +4,7 @@ import avatar from './images/avatar.png'
 import { Route, Routes } from 'react-router-dom'
 import { Restaurants } from './pages/Restaurants'
 import { NewRestaurant } from './pages/NewRestaurant'
+import { SignUp } from './pages/SignUp'
 
 export function App() {
   return (
@@ -14,6 +15,9 @@ export function App() {
             <nav>
               <a href="/new">
                 <i className="fa fa-plus"></i> Restaurant
+              </a>
+              <a href="/signup">
+                <i className="fa fa-plus"></i> SignUp
               </a>
               <p>Welcome back, Steveeeeeeeee!</p>
             </nav>
@@ -27,6 +31,7 @@ export function App() {
       <Routes>
         <Route path="/" element={<Restaurants />} />
         <Route path="/new" element={<NewRestaurant />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
 
       <footer>
