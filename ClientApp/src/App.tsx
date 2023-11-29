@@ -17,7 +17,7 @@ export function App() {
                 <i className="fa fa-plus"></i> Restaurant
               </a>
               <a href="/signup">
-                <i className="fa fa-plus"></i> SignUp
+                <i className="fa fa-plus"></i> Sign Up
               </a>
               <p>Welcome back, Steveeeeeeeee!</p>
             </nav>

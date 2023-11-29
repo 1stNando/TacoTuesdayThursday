@@ -19,7 +19,7 @@ async function submitNewUser(newUser: NewUserType) {
 }
 
 export function SignUp() {
-  //Add useHistory perhaps??, to redirect the user after signing up
+  //Add useHistory perhaps??(update uses useNavigate instead), to redirect the user after signing up
   const history = useNavigate()
 
   // Set states to track for the User model.
@@ -77,7 +77,7 @@ export function SignUp() {
           <label htmlFor="name">Name</label>
           <input
             type="text"
-            name="name"
+            name="fullName"
             value={newUser.fullName}
             onChange={handleStringFieldChange}
           />

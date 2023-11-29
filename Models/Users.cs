@@ -1,9 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace TacoTuesday.Models
 {
+    //Add a UNIQUE INDEX field. This will prevent duplicate email to exist in the database of Users
+    [Index(nameof(Email), IsUnique = true)]
+
     public class User
     {
         public int Id { get; set; }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { CSSStarsProperties, RestaurantType, ReviewType } from '../types'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useMutation, useQuery } from 'react-query'
 import format from 'date-fns/format'
 
@@ -88,9 +88,9 @@ export function Restaurant() {
     // This is the view of  ONE RESTAURANT, showing the reviews and star ratings. SINGLE VIEW PAGE.
     <main className="page">
       <nav>
-        <a href="/">
+        <Link to="/">
           <i className="fa fa-home"></i>
-        </a>
+        </Link>
         <h2>{restaurant.name}</h2>
       </nav>
       <p>
