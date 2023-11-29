@@ -23,11 +23,27 @@ namespace TacoTuesdayThursday.Controllers
 
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
-        {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+        {// This try/catch deals with potential email duplicate in Users. 
+            try
+            {
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+                return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException)
+            {
+                // Make a custom error response
+                var response = new
+                {
+                    status = 400,
+                    errors = new List<string>() { "This account email already exists!" }
+                };
+
+                // Return our error with the custom response
+                return BadRequest(response);
+            }
+
         }
     }
 }
