@@ -15,7 +15,11 @@ namespace TacoTuesdayThursday.Models
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyUtcDateTimeConverter();//Put before seed data and after model creation
+            // PS: Greg had to help me figure out that we needed to add this time stamp. 
+            builder.ApplyUtcDateTimeConverter();//Put before seed data and after model creation!!!!
+
+            builder.Entity<User>().HasIndex(user => user.Email).IsUnique();
+
         }
         // Change this if you want to have a different database name in development
         private static string DEVELOPMENT_DATABASE_NAME = "TacoTuesdayThursdayDatabase";
