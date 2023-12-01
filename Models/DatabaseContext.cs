@@ -12,12 +12,14 @@ namespace TacoTuesdayThursday.Models
 {
     public partial class DatabaseContext : DbContext
     {
-
+        // I had to add this OnModelCreating() later on in order to correctly use date and time for review postings.!!!
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            // PS: Greg had to help me figure out that we needed to add this time stamp. 
+            // PS: Greg, had to help me figure out that we needed to add this time stamp. 
             builder.ApplyUtcDateTimeConverter();//Put before seed data and after model creation!!!!
 
+            // Video: Creating Users Part - 2 start. 
+            // Add a UNIQUE INDEX field. This will prevent duplicate email to exist in the database of Users(unique). 
             builder.Entity<User>().HasIndex(user => user.Email).IsUnique();
 
         }
@@ -35,13 +37,8 @@ namespace TacoTuesdayThursday.Models
         // table for Users. Tells the context about User collection/table. 
         public DbSet<User> Users { get; set; }
 
-        // Video: Creating Users Part - 2 start. 
-        // Add a UNIQUE INDEX field. This will prevent duplicate email to exist in the database of Users(unique).  
-        //(UPDATE: this did not work with new versions. Instead we added this to the Users.cs model as [Index(nameof(Email), IsUnique = true)])
-        // protected override void OnModelCreating(ModelBuilder modelBuilder)
-        // {
-        //     modelBuilder.Entity<User>().HasIndex(user => user.Email).IsUnique();
-        // }
+
+
 
         // Rarely do we have to touch this
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
