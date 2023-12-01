@@ -1,10 +1,20 @@
 import React from 'react'
 
 import avatar from './images/avatar.png'
-import { Route, Routes } from 'react-router-dom'
+import { Link, Route, Routes } from 'react-router-dom'
 import { Restaurants } from './pages/Restaurants'
 import { NewRestaurant } from './pages/NewRestaurant'
-import { SignUp } from './pages/SignUp'
+import { getUser, isLoggedIn, logout } from './auth'
+// import { SignUp } from './pages/SignUp'
+// import { SignIn } from './pages/SignIn'
+
+function handleLogout() {
+  logout()
+
+  window.location.assign('/')
+}
+
+const user = getUser()
 
 export function App() {
   return (
@@ -13,13 +23,28 @@ export function App() {
         <ul>
           <li>
             <nav>
-              <a href="/new">
-                <i className="fa fa-plus"></i> Restaurant
-              </a>
-              <a href="/signup">
-                <i className="fa fa-plus"></i> Sign Up
-              </a>
-              <p>Welcome back, Steveeeeeeeee!</p>
+              {isLoggedIn() ? (
+                <Link to="/new">
+                  <i className="fa fa-plus"></i>
+                  Restaurant
+                </Link>
+              ) : null}
+              {/* Here we test if the user is logged in, and if they are not then we show the <Link>.This code effectively only shows the links if the user is not logged in. */}
+              {isLoggedIn() ? null : <Link to="/signup">Sign Up</Link>}
+              {isLoggedIn() ? null : <Link to="/signin">Sign In</Link>}
+              {isLoggedIn() ? (
+                <a
+                  href="/"
+                  className="link"
+                  onClick={function (event) {
+                    event.preventDefault()
+                    handleLogout()
+                  }}
+                >
+                  Sign Out
+                </a>
+              ) : null}
+              {isLoggedIn() ? <p>Welcome back, {user.fullName}!</p> : null}
             </nav>
           </li>
           <li className="avatar">
@@ -29,9 +54,10 @@ export function App() {
       </header>
       {/* <Restaurants /> */}
       <Routes>
-        <Route path="/" element={<Restaurants />} />
+        <Route path="*" element={<Restaurants />} />
         <Route path="/new" element={<NewRestaurant />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signup" />
+        <Route path="/signin" />
       </Routes>
 
       <footer>
