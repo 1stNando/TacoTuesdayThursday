@@ -4,6 +4,7 @@ import { recordAuthentication } from '../auth'
 import { useMutation } from 'react-query'
 
 export function SignIn() {
+  // Used in: Adding Login to the User Interface.
   const [errorMessage, setErrorMessage] = useState('')
 
   const [user, setUser] = useState<LoginUserType>({

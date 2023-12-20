@@ -14,11 +14,14 @@ namespace TacoTuesdayThursday.Controllers
     public class LoginUser
     {
         // Represents the VIEW Model
-        // Exists outside the database and in this case only used by this controller. The purpose is to have an object that cansee the email and the password for the session we are creating. 
+        // Exists outside the database and in this case only used by this controller. The purpose is to have an object that can see the email and the password for the session we are creating. 
         public string Email { get; set; }
         public string Password { get; set; }
     }
 
+    // All of these routes will be at the base URL:     /api/Sessions
+    // That is what "api/[controller]" means below. It uses the name of the controller
+    // in this case RestaurantsController to determine the URL
     [Route("api/[controller]")]
     [ApiController]
     public class SessionsController : ControllerBase
@@ -46,13 +49,13 @@ namespace TacoTuesdayThursday.Controllers
 
             if (foundUser != null && foundUser.IsValidPassword(loginUser.Password))
             {
-                // create a custom response
+                // create a custom response! 
                 var response = new
                 {
-                    // This is the login token
+                    // This is the login token SENT.
                     token = new TokenGenerator(JWT_KEY).TokenFor(foundUser),
 
-                    // The is the user details
+                    // The is the user details SENT.
                     user = foundUser
                 };
 

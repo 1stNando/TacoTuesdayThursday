@@ -5,17 +5,18 @@ import { Link, Route, Routes } from 'react-router-dom'
 import { Restaurants } from './pages/Restaurants'
 import { NewRestaurant } from './pages/NewRestaurant'
 import { getUser, isLoggedIn, logout } from './auth'
-// import { SignUp } from './pages/SignUp'
-// import { SignIn } from './pages/SignIn'
+import { SignUp } from './pages/SignUp'
+import { SignIn } from './pages/SignIn'
 
-function handleLogout() {
-  logout()
+// function handleLogout() {
+//   logout()
 
-  window.location.assign('/')
-}
+//   window.location.assign('/')
+// }
 
-const user = getUser()
+// const user = getUser()
 
+// This is rendering the menu bar found on the landing page "Restaurants".
 export function App() {
   return (
     <>
@@ -23,28 +24,11 @@ export function App() {
         <ul>
           <li>
             <nav>
-              {isLoggedIn() ? (
-                <Link to="/new">
-                  <i className="fa fa-plus"></i>
-                  Restaurant
-                </Link>
-              ) : null}
-              {/* Here we test if the user is logged in, and if they are not then we show the <Link>.This code effectively only shows the links if the user is not logged in. */}
-              {isLoggedIn() ? null : <Link to="/signup">Sign Up</Link>}
-              {isLoggedIn() ? null : <Link to="/signin">Sign In</Link>}
-              {isLoggedIn() ? (
-                <a
-                  href="/"
-                  className="link"
-                  onClick={function (event) {
-                    event.preventDefault()
-                    handleLogout()
-                  }}
-                >
-                  Sign Out
-                </a>
-              ) : null}
-              {isLoggedIn() ? <p>Welcome back, {user.fullName}!</p> : null}
+              <Link to="/new">
+                <i className="fa fa-plus"></i> Restaurant
+              </Link>
+              <Link to="/signup">Sign Up</Link>
+              <p>Welcome back, Steve!</p>
             </nav>
           </li>
           <li className="avatar">
@@ -52,12 +36,12 @@ export function App() {
           </li>
         </ul>
       </header>
-      {/* <Restaurants /> */}
+
       <Routes>
         <Route path="*" element={<Restaurants />} />
         <Route path="/new" element={<NewRestaurant />} />
-        <Route path="/signup" />
-        <Route path="/signin" />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signin" element={<SignIn />} />
       </Routes>
 
       <footer>

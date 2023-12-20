@@ -6,6 +6,8 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.IdentityModel.Tokens;
 
+
+// SUPER HANDY-DANDY Token Generator code written by SDG for us to use! Simplifying the concepts for students. 
 namespace TacoTuesdayThursday.Utils
 {
     public class TokenGenerator
