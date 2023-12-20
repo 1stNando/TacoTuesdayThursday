@@ -39,3 +39,17 @@ export type APIError = {
   traceId: string
   type: string
 }
+
+//The first step is to add types. We'll need a type to hold the form information and we'll also need a type for the data that is returned from the login API. Then state to store the user and an error message...
+export type LoginUserType = {
+  email: string
+  password: string
+}
+export type LoginSuccess = {
+  token: string
+  user: {
+    id: number
+    fullName: string
+    email: string
+  }
+}
