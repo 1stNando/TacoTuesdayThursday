@@ -24,9 +24,12 @@ export function App() {
         <ul>
           <li>
             <nav>
-              <Link to="/new">
-                <i className="fa fa-plus"></i> Restaurant
-              </Link>
+              {isLoggedIn() ? (
+                <Link to="/new">
+                  <i className="fa fa-plus"></i> Restaurant
+                </Link>
+              ) : null}
+
               {isLoggedIn() ? null : (
                 <>
                   <Link to="/signin">Sign in</Link>
