@@ -10,14 +10,20 @@
 //    body: JSON.stringify(thing)
 // })
 
+// added for Login User interface
 import { LoginSuccess } from './types'
 
 // Returns the Authorization header for the the currently logged in in user.
 // If there is no authorization data, we'll return an empty object
-export function authHeader() {
+
+export const authHeader = () => {
   const auth = authFromStorage()
 
-  return auth.token ? `Bearer ${auth.token}` : ''
+  return auth.token
+    ? {
+        Authorization: `Bearer ${auth.token}`,
+      }
+    : {}
 }
 
 // Save the authentication received from the API

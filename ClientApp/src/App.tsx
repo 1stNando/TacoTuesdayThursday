@@ -1,10 +1,11 @@
 import React from 'react'
 
 import avatar from './images/avatar.png'
-import { Route, Routes } from 'react-router-dom'
+import { Link, Route, Routes } from 'react-router-dom'
 import { Restaurants } from './pages/Restaurants'
 import { NewRestaurant } from './pages/NewRestaurant'
 import { SignUp } from './pages/SignUp'
+import { SignIn } from './pages/SignIn'
 
 export function App() {
   return (
@@ -16,9 +17,8 @@ export function App() {
               <a href="/new">
                 <i className="fa fa-plus"></i> Restaurant
               </a>
-              <a href="/signup">
-                <i className="fa fa-plus"></i> Sign Up
-              </a>
+              <Link to="/signin">Sign In</Link>
+              <Link to="/signup">Sign Up</Link>
               <p>Welcome back, Steveeeeeeeee!</p>
             </nav>
           </li>
@@ -32,6 +32,7 @@ export function App() {
         <Route path="*" element={<Restaurants />} />
         <Route path="/new" element={<NewRestaurant />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/signin" element={<SignIn />} />
       </Routes>
 
       <footer>
