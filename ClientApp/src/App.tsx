@@ -6,9 +6,15 @@ import { Restaurants } from './pages/Restaurants'
 import { NewRestaurant } from './pages/NewRestaurant'
 import { SignUp } from './pages/SignUp'
 import { SignIn } from './pages/SignIn'
-import { isLoggedIn } from './auth'
+import { isLoggedIn, logout } from './auth'
 
 export function App() {
+  function handleLogout() {
+    logout()
+
+    window.location.assign('/')
+  }
+
   return (
     <>
       <header>
@@ -24,6 +30,19 @@ export function App() {
                   <Link to="/signup">Sign up</Link>
                 </>
               )}
+              {isLoggedIn() ? (
+                <a
+                  href="/"
+                  className="link"
+                  onClick={function (event) {
+                    event.preventDefault()
+                    handleLogout()
+                  }}
+                >
+                  Sign out
+                </a>
+              ) : null}
+
               <p>Welcome back, Steveeeeeeeee!</p>
             </nav>
           </li>
