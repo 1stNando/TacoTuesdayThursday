@@ -9,12 +9,6 @@ import { SignIn } from './pages/SignIn'
 import { getUser, isLoggedIn, logout } from './auth'
 
 export function App() {
-  function handleLogout() {
-    logout()
-
-    window.location.assign('/')
-  }
-
   //To determine the user, we'll add a call to getUser from auth.js
   const user = getUser()
 
@@ -23,34 +17,7 @@ export function App() {
       <header>
         <ul>
           <li>
-            <nav>
-              {isLoggedIn() ? (
-                <Link to="/new">
-                  <i className="fa fa-plus"></i> Restaurant
-                </Link>
-              ) : null}
-
-              {isLoggedIn() ? null : (
-                <>
-                  <Link to="/signin">Sign in</Link>
-                  <Link to="/signup">Sign up</Link>
-                </>
-              )}
-              {isLoggedIn() ? (
-                <a
-                  href="/"
-                  className="link"
-                  onClick={function (event) {
-                    event.preventDefault()
-                    handleLogout()
-                  }}
-                >
-                  Sign out
-                </a>
-              ) : null}
-
-              {isLoggedIn() ? <p>Welcome back, {user.fullName}!</p> : null}
-            </nav>
+            <nav>{isLoggedIn() ? <LoggedInNav /> : <SignedOutNav />}</nav>
           </li>
           {isLoggedIn() ? (
             <li className="avatar">
@@ -77,6 +44,43 @@ export function App() {
           Built with <i className="fa fa-heart"></i> in St Petersburg, Florida.
         </p>
       </footer>
+    </>
+  )
+}
+
+function LoggedInNav() {
+  const user = getUser()
+
+  function handleLogout() {
+    logout()
+
+    window.location.assign('/')
+  }
+  return (
+    <>
+      <Link to="/new">
+        <i className="fa fa-plus"></i> Restaurant
+      </Link>
+      <a
+        href="/new"
+        className="link"
+        onClick={function (event) {
+          event.preventDefault()
+          handleLogout()
+        }}
+      >
+        Sign Out
+      </a>
+      <p>Welcome back, {user.fullName}!</p>{' '}
+    </>
+  )
+}
+
+function SignedOutNav() {
+  return (
+    <>
+      <Link to="/signin">Sign In</Link>
+      <Link to="/signup">Sign Up</Link>
     </>
   )
 }
