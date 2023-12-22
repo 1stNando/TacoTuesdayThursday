@@ -6,6 +6,7 @@ import { Restaurants } from './pages/Restaurants'
 import { NewRestaurant } from './pages/NewRestaurant'
 import { SignUp } from './pages/SignUp'
 import { SignIn } from './pages/SignIn'
+import { isLoggedIn } from './auth'
 
 export function App() {
   return (
@@ -14,11 +15,15 @@ export function App() {
         <ul>
           <li>
             <nav>
-              <a href="/new">
+              <Link to="/new">
                 <i className="fa fa-plus"></i> Restaurant
-              </a>
-              <Link to="/signin">Sign In</Link>
-              <Link to="/signup">Sign Up</Link>
+              </Link>
+              {isLoggedIn() ? null : (
+                <>
+                  <Link to="/signin">Sign in</Link>
+                  <Link to="/signup">Sign up</Link>
+                </>
+              )}
               <p>Welcome back, Steveeeeeeeee!</p>
             </nav>
           </li>
