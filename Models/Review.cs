@@ -15,5 +15,9 @@ namespace TacoTuesday.Models
         public int RestaurantId { get; set; }
         // This returns in your migrations AddReviews with a CreateIndex column for a "RestaurantId" to keep track of where the review is associated to. 
         public Restaurant Restaurant { get; set; }
+
+        // "Storing the User that Created Restaurants and Reviews". 
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

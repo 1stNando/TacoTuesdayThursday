@@ -71,7 +71,7 @@ function LoggedInNav() {
       >
         Sign Out
       </a>
-      <p>Welcome back, {user.fullName}!</p>{' '}
+      <p>Welcome back, {user.fullName}!</p>
     </>
   )
 }
