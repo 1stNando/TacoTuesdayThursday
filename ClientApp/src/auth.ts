@@ -19,11 +19,7 @@ import { LoginSuccess } from './types'
 export const authHeader = () => {
   const auth = authFromStorage()
 
-  return auth.token
-    ? {
-        Authorization: `Bearer ${auth.token}`,
-      }
-    : {}
+  return auth.token ? `Bearer ${auth.token}` : ''
 }
 
 // Save the authentication received from the API

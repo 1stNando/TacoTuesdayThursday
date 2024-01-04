@@ -22,7 +22,10 @@ namespace TacoTuesdayThursday.Models
         public List<Review> Reviews { get; set; }
 
         // Storing the User that Created Restaurants and Reviews. Handbook.
+        // Adds the database column for the associated user
         public int UserId { get; set; }
+
+        // The actual associated object
         public User User { get; set; }
     }
 }

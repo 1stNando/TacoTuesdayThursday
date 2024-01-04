@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -73,8 +75,13 @@ namespace TacoTuesdayThursday.Controllers
         }
 
         [HttpPost]
+        // Adds authentication requirement to this endpoint
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<Review>> PostReview(Review review)
         {
+            // Set the UserId to the current user id, this overrides anything the user specifies.
+            review.UserId = GetCurrentUserId();
+
             // Indicate to the database context we want to add this new record
             _context.Reviews.Add(review);
             await _context.SaveChangesAsync();
@@ -82,6 +89,11 @@ namespace TacoTuesdayThursday.Controllers
             // Return a response that indicates the object was created (status code `201`) and some additional
             // headers with details of the newly created object.
             return CreatedAtAction("GetReview", new { id = review.Id }, review);
+        }
+
+        private int GetCurrentUserId()
+        {
+            return int.Parse(User.Claims.FirstOrDefault(claim => claim.Type == "Id").Value);
         }
 
         // DELETE: api/Reviews/5

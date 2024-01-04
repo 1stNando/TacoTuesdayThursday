@@ -3,7 +3,7 @@ import { CSSStarsProperties, RestaurantType, ReviewType } from '../types'
 import { Link, useParams } from 'react-router-dom'
 import { useMutation, useQuery } from 'react-query'
 import format from 'date-fns/format'
-import { isLoggedIn } from '../auth'
+import { authHeader, isLoggedIn } from '../auth'
 //import { isLoggedIn } from '../auth'
 
 async function loadOneRestaurant(id: string | undefined) {
@@ -20,7 +20,10 @@ async function loadOneRestaurant(id: string | undefined) {
 async function submitNewReview(review: ReviewType) {
   const response = await fetch(`/api/Reviews`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: {
+      'content-type': 'application/json',
+      Authorization: authHeader(),
+    },
     body: JSON.stringify(review),
   })
 
