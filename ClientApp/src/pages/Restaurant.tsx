@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { CSSStarsProperties, RestaurantType, ReviewType } from '../types'
+import { CSSStarsProperties, NewReviewType, RestaurantType } from '../types'
 import { Link, useParams } from 'react-router-dom'
 import { useMutation, useQuery } from 'react-query'
 import format from 'date-fns/format'
@@ -17,7 +17,7 @@ async function loadOneRestaurant(id: string | undefined) {
 }
 
 // Handles the submission of a new review to the api.
-async function submitNewReview(review: ReviewType) {
+async function submitNewReview(review: NewReviewType) {
   const response = await fetch(`/api/Reviews`, {
     method: 'POST',
     headers: {
@@ -55,10 +55,12 @@ export function Restaurant() {
     )
 
   // define the shape of the state we need to track for new reviews to be sent.
-  const [newReview, setNewReview] = useState<ReviewType>({
+  const [newReview, setNewReview] = useState<NewReviewType>({
+    id: undefined,
     body: '',
     stars: 5,
     summary: '',
+    createdAt: new Date(),
     restaurantId: Number(id),
   })
 
@@ -113,7 +115,7 @@ export function Restaurant() {
         {restaurant.reviews.map((review) => (
           <li key={review.id}>
             <div className="author">
-              Gavin said: <em>{review.summary}</em>
+              {review.user.fullName} said: <em>{review.summary}</em>
             </div>
             <div className="body">
               <p>{review.body}</p>
