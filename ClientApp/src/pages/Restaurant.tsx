@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useMutation, useQuery } from 'react-query'
 import format from 'date-fns/format'
 import { authHeader, isLoggedIn } from '../auth'
+import { Stars } from '../components/Stars'
 //import { isLoggedIn } from '../auth'
 
 async function loadOneRestaurant(id: string | undefined) {
@@ -101,12 +102,7 @@ export function Restaurant() {
         <h2>{restaurant.name}</h2>
       </nav>
       <p>
-        <span
-          className="stars"
-          style={{ '--rating': 4.7 } as CSSStarsProperties}
-          aria-label="Star rating of this location is 4.7 out of 5."
-        ></span>
-        ({restaurant.reviews.length})
+        <Stars restaurant={restaurant} />({restaurant.reviews.length})
       </p>
       <address>{restaurant.address}</address>
       <hr />
