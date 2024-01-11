@@ -1,10 +1,12 @@
 import React from 'react'
-import { CSSStarsProperties, RestaurantType } from '../types'
+import { RestaurantType } from '../types'
 import { Link } from 'react-router-dom'
+import { Stars } from './Stars'
 
 type SingleRestaurantFromListProps = {
   restaurant: RestaurantType
 }
+
 export function SingleRestaurantFromList(props: SingleRestaurantFromListProps) {
   return (
     // This page is like an intermediary between the MAIN landing page and the detail specific "Restaurant" single view page.
@@ -15,13 +17,9 @@ export function SingleRestaurantFromList(props: SingleRestaurantFromListProps) {
         </Link>
       </h2>
       <p>
-        <span
-          className="stars"
-          style={{ '--rating': 4.7 } as CSSStarsProperties}
-          aria-label="Star rating of this location is 4.7 out of 5."
-        ></span>
+        <Stars restaurant={props.restaurant} />
         {/* Dynamically display the number of reviews for this restaurant. */}(
-        {props.restaurant?.reviews?.length || 0})
+        {props.restaurant.reviews.length})
       </p>
       <address>{props.restaurant.address}</address>
     </li>
