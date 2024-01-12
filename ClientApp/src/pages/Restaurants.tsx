@@ -2,29 +2,15 @@ import React, { useState } from 'react'
 import tacoTuesday from '../images/taco-tuesday.svg'
 
 import { RestaurantType } from '../types'
-import map from '../images/map.png'
+//import map from '../images/map.png'
 
 //import axios from 'axios'
 import { useQuery } from 'react-query'
 import { SingleRestaurantFromList } from '../components/SingleRestaurantFromList'
 
 //Maps
-// import Map from 'react-map-gl'
-
-// function Mapbox() {
-//   return (
-//     <Map
-//       mapboxAccessToken="VITE_APP_MAPBOX_TOKEN"
-//       initialViewState={{
-//         longitude: -122.4,
-//         latitude: 37.8,
-//         zoom: 9,
-//       }}
-//       style={{ width: 100, height: 250 }}
-//       mapStyle="mapbox://styles/mapbox/streets-v9"
-//     />
-//   )
-// }
+import Map from 'react-map-gl'
+import 'mapbox-gl/dist/mapbox-gl.css'
 
 export function Restaurants() {
   // Start of search bar abilities.
@@ -74,7 +60,17 @@ export function Restaurants() {
       </form>
 
       <section className="map">
-        <img alt="Example Map" src={map} />
+        {/* <img alt="Example Map" src={map} /> */}
+        <Map
+          mapboxAccessToken="pk.eyJ1IjoiZmVydmFsOTAiLCJhIjoiY2xyNnZ4cmZxMmQ3YzJxcWl2M2t1ZXIzeSJ9.DIW-xBtlad_94_mv3158-w"
+          initialViewState={{
+            longitude: -82.66090611749074,
+            latitude: 27.77101804911986,
+            zoom: 9,
+          }}
+          style={{ width: 600, height: 400 }}
+          mapStyle="mapbox://styles/mapbox/streets-v9"
+        />
       </section>
 
       <ul className="results">
