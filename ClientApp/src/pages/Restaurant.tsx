@@ -36,7 +36,7 @@ async function submitNewReview(review: NewReviewType) {
 }
 
 const NullRestaurant: RestaurantType = {
-  // id: undefined,
+  id: undefined,
   name: '',
   address: '',
   description: '',

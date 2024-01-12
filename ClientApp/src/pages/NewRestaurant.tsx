@@ -36,6 +36,8 @@ export function NewRestaurant() {
     address: '',
     telephone: '',
     reviews: [],
+    // latitude: undefined,
+    // longitude: undefined,
   })
 
   const history = useNavigate()

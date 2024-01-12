@@ -25,7 +25,7 @@ namespace TacoTuesdayThursday.Controllers
         private readonly DatabaseContext _context;
 
         // Adding MAPS features
-        private readonly string BING_MAPS_KEY;
+        // private readonly string BING_MAPS_KEY;
 
         // Constructor that receives a reference to your database context
         // and stores it in _context for you to use in your API methods
@@ -33,8 +33,9 @@ namespace TacoTuesdayThursday.Controllers
         public RestaurantsController(DatabaseContext context, IConfiguration config)
         {
             _context = context;
-            //MAPS
-            BING_MAPS_KEY = config["BING_MAPS_KEY"];
+
+            //MAPS key.
+            // BING_MAPS_KEY = config["BING_MAPS_KEY"];
         }
 
         // GET: api/Restaurants
@@ -153,21 +154,21 @@ namespace TacoTuesdayThursday.Controllers
 
         public async Task<ActionResult<Restaurant>> PostRestaurant(Restaurant restaurant)
         {
-            // Create a new geocoder
-            var geocoder = new BingMapsGeocoder(BING_MAPS_KEY);
+            // // Create a new geocoder
+            // var geocoder = new BingMapsGeocoder(BING_MAPS_KEY);
 
-            // Request this address to be geocoded.
-            var geocodedAddresses = await geocoder.GeocodeAsync(restaurant.Address);
+            // // Request this address to be geocoded.
+            // var geocodedAddresses = await geocoder.GeocodeAsync(restaurant.Address);
 
-            // ... and pick out the best address sorted by the confidence level
-            var bestGeocodedAddress = geocodedAddresses.OrderBy(address => address.Confidence).FirstOrDefault();
+            // // ... and pick out the best address sorted by the confidence level
+            // var bestGeocodedAddress = geocodedAddresses.OrderBy(address => address.Confidence).FirstOrDefault();
 
-            // If we have a best geocoded address, use the latitude and longitude from that result
-            if (bestGeocodedAddress != null)
-            {
-                restaurant.Latitude = bestGeocodedAddress.Coordinates.Latitude;
-                restaurant.Longitude = bestGeocodedAddress.Coordinates.Longitude;
-            }
+            // // If we have a best geocoded address, use the latitude and longitude from that result
+            // if (bestGeocodedAddress != null)
+            // {
+            //     restaurant.Latitude = bestGeocodedAddress.Coordinates.Latitude;
+            //     restaurant.Longitude = bestGeocodedAddress.Coordinates.Longitude;
+            // }
 
             // Set the UserID to the current user id, this overrides anything the user specifies. 
             restaurant.UserId = GetCurrentUserId();

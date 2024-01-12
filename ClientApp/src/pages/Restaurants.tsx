@@ -1,11 +1,30 @@
 import React, { useState } from 'react'
 import tacoTuesday from '../images/taco-tuesday.svg'
-import map from '../images/map.png'
+
 import { RestaurantType } from '../types'
+import map from '../images/map.png'
 
 //import axios from 'axios'
 import { useQuery } from 'react-query'
 import { SingleRestaurantFromList } from '../components/SingleRestaurantFromList'
+
+//Maps
+// import Map from 'react-map-gl'
+
+// function Mapbox() {
+//   return (
+//     <Map
+//       mapboxAccessToken="VITE_APP_MAPBOX_TOKEN"
+//       initialViewState={{
+//         longitude: -122.4,
+//         latitude: 37.8,
+//         zoom: 9,
+//       }}
+//       style={{ width: 100, height: 250 }}
+//       mapStyle="mapbox://styles/mapbox/streets-v9"
+//     />
+//   )
+// }
 
 export function Restaurants() {
   // Start of search bar abilities.
@@ -27,6 +46,14 @@ export function Restaurants() {
       return response.json()
     }
   )
+  // // FRONT-END MAPS implementation.
+  // function Map() {
+  //   const [viewport, setViewport] = useState({
+  //     latitude: 27.77101804911986,
+  //     longitude: -82.66090611749074,
+  //     zoom: 9.8,
+  //   })
+  // }
 
   return (
     // This is the main LANDING PAGE, with the search bar at the top, a map of city, and list of our database.
