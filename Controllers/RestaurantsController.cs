@@ -25,7 +25,7 @@ namespace TacoTuesdayThursday.Controllers
         private readonly DatabaseContext _context;
 
         // Adding MAPS features
-        // private readonly string BING_MAPS_KEY;
+        private readonly string BING_MAPS_KEY;
 
         // Constructor that receives a reference to your database context
         // and stores it in _context for you to use in your API methods
@@ -33,9 +33,8 @@ namespace TacoTuesdayThursday.Controllers
         public RestaurantsController(DatabaseContext context, IConfiguration config)
         {
             _context = context;
-
-            //MAPS key.
-            // BING_MAPS_KEY = config["BING_MAPS_KEY"];
+            //MAPS
+            BING_MAPS_KEY = config["BING_MAPS_KEY"];
         }
 
         // GET: api/Restaurants
