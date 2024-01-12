@@ -16,6 +16,8 @@ export function Restaurants() {
   // Start of search bar abilities.
   const [filterText, setFilterText] = useState('')
 
+  const mapBoxKey = process.env.VITE_APP_MAPBOX_TOKEN
+
   //Part where USE REACT QUERY: to load all restaurants. This LOADS data at start.
   // NOTE: In this code const { data: restaurants = [] } = we are destructuring the return of react-query to get the data property and renaming it restaurants.
   const { data: restaurants = [] } = useQuery<RestaurantType[]>(
@@ -62,7 +64,7 @@ export function Restaurants() {
       <section className="map">
         {/* <img alt="Example Map" src={map} /> */}
         <Map
-          mapboxAccessToken="pk.eyJ1IjoiZmVydmFsOTAiLCJhIjoiY2xyNnZ4cmZxMmQ3YzJxcWl2M2t1ZXIzeSJ9.DIW-xBtlad_94_mv3158-w"
+          mapboxAccessToken={mapBoxKey}
           initialViewState={{
             longitude: -82.66090611749074,
             latitude: 27.77101804911986,
