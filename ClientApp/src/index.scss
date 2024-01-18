@@ -425,6 +425,7 @@ label[for]:hover {
 
 //Maps
 .mapboxgl-canvas {
-  height: 100% !important;
+  height: 50% important;
   position: fixed !important;
+  margin: 600px 1100px auto;
 }

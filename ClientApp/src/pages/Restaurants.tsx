@@ -61,9 +61,9 @@ export function Restaurants() {
             initialViewState={{
               longitude: -82.66090611749074,
               latitude: 27.77101804911986,
-              zoom: 9,
+              zoom: 8,
             }}
-            style={{ width: 600, height: 400 }}
+            style={{ width: 400, height: 300 }}
             mapStyle="mapbox://styles/mapbox/streets-v9"
           />
         }
