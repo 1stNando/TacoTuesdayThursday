@@ -11,12 +11,12 @@ import { SingleRestaurantFromList } from '../components/SingleRestaurantFromList
 //Maps
 import Map from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
+// Securely imports our secret token.
+const api_key = import.meta.env.VITE_APP_MAPBOX_TOKEN
 
 export function Restaurants() {
   // Start of search bar abilities.
   const [filterText, setFilterText] = useState('')
-
-  const mapBoxKey = process.env.VITE_APP_MAPBOX_TOKEN
 
   //Part where USE REACT QUERY: to load all restaurants. This LOADS data at start.
   // NOTE: In this code const { data: restaurants = [] } = we are destructuring the return of react-query to get the data property and renaming it restaurants.
@@ -34,14 +34,6 @@ export function Restaurants() {
       return response.json()
     }
   )
-  // // FRONT-END MAPS implementation.
-  // function Map() {
-  //   const [viewport, setViewport] = useState({
-  //     latitude: 27.77101804911986,
-  //     longitude: -82.66090611749074,
-  //     zoom: 9.8,
-  //   })
-  // }
 
   return (
     // This is the main LANDING PAGE, with the search bar at the top, a map of city, and list of our database.
@@ -62,17 +54,19 @@ export function Restaurants() {
       </form>
 
       <section className="map">
-        {/* <img alt="Example Map" src={map} /> */}
-        <Map
-          mapboxAccessToken={mapBoxKey}
-          initialViewState={{
-            longitude: -82.66090611749074,
-            latitude: 27.77101804911986,
-            zoom: 9,
-          }}
-          style={{ width: 600, height: 400 }}
-          mapStyle="mapbox://styles/mapbox/streets-v9"
-        />
+        {/* {<img alt="Example Map" src={map} />} */}
+        {
+          <Map
+            mapboxAccessToken={api_key}
+            initialViewState={{
+              longitude: -82.66090611749074,
+              latitude: 27.77101804911986,
+              zoom: 9,
+            }}
+            style={{ width: 600, height: 400 }}
+            mapStyle="mapbox://styles/mapbox/streets-v9"
+          />
+        }
       </section>
 
       <ul className="results">

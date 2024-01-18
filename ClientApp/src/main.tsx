@@ -12,6 +12,7 @@ import './index.scss'
 import { SignUp } from './pages/SignUp'
 import { SignIn } from './pages/SignIn'
 
+//Instantiates the query client method we need to query the database.
 const queryClient = new QueryClient()
 
 const routingObject = createBrowserRouter([
