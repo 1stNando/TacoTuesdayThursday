@@ -55,6 +55,7 @@ export function Restaurants() {
 
       <section className="map">
         {/* {<img alt="Example Map" src={map} />} */}
+        <div>Words!</div>
         {
           <Map
             mapboxAccessToken={api_key}

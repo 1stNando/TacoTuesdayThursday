@@ -29,7 +29,7 @@ namespace TacoTuesdayThursday.Models
                 public User User { get; set; }
 
                 // MAPS through Geocoding location
-                // public double Latitude { get; set; }
-                // public double Longitude { get; set; }
+                public double Latitude { get; set; }
+                public double Longitude { get; set; }
         }
 }

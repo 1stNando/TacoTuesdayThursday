@@ -29,11 +29,12 @@ namespace TacoTuesdayThursday.Controllers
 
         // Constructor that receives a reference to your database context
         // and stores it in _context for you to use in your API methods
-        // ANOTHER EXAMPLE OF DEPENDENCY INJECTION!!! look at context. Something else is managing it and handing it to us. Iconfig also is one. 
+        // ANOTHER EXAMPLE OF DEPENDENCY INJECTION!!! look at context. Something else is managing it and handing it to us. Iconfig also is one we added it later to use bing maps key. 
         public RestaurantsController(DatabaseContext context, IConfiguration config)
         {
             _context = context;
-            //MAPS
+
+            //BING_MAPS
             BING_MAPS_KEY = config["BING_MAPS_KEY"];
         }
 
@@ -153,24 +154,28 @@ namespace TacoTuesdayThursday.Controllers
 
         public async Task<ActionResult<Restaurant>> PostRestaurant(Restaurant restaurant)
         {
-            // // Create a new geocoder
-            // var geocoder = new BingMapsGeocoder(BING_MAPS_KEY);
-
-            // // Request this address to be geocoded.
-            // var geocodedAddresses = await geocoder.GeocodeAsync(restaurant.Address);
-
-            // // ... and pick out the best address sorted by the confidence level
-            // var bestGeocodedAddress = geocodedAddresses.OrderBy(address => address.Confidence).FirstOrDefault();
-
-            // // If we have a best geocoded address, use the latitude and longitude from that result
-            // if (bestGeocodedAddress != null)
-            // {
-            //     restaurant.Latitude = bestGeocodedAddress.Coordinates.Latitude;
-            //     restaurant.Longitude = bestGeocodedAddress.Coordinates.Longitude;
-            // }
-
             // Set the UserID to the current user id, this overrides anything the user specifies. 
             restaurant.UserId = GetCurrentUserId();
+
+            //////////BING MAPS/geocoding/////////
+            // Create a new geocoder!
+            var geocoder = new BingMapsGeocoder(BING_MAPS_KEY);
+
+            // Request this address to be geocoded.
+            var geocodedAddresses = await geocoder.GeocodeAsync(restaurant.Address);
+
+            // ... and pick out the best address sorted by the confidence level
+            var bestGeocodedAddress = geocodedAddresses.OrderBy(address => address.Confidence).FirstOrDefault();
+
+            // If we have a best geocoded address, use the latitude and longitude from that result
+            if (bestGeocodedAddress != null)
+            {
+                restaurant.Latitude = bestGeocodedAddress.Coordinates.Latitude;
+                restaurant.Longitude = bestGeocodedAddress.Coordinates.Longitude;
+            }
+            //////////////////////////////////////Geocoding end///
+
+
 
             _context.Restaurants.Add(restaurant);
             await _context.SaveChangesAsync();
