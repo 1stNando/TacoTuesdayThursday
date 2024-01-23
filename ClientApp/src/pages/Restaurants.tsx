@@ -11,8 +11,15 @@ import { SingleRestaurantFromList } from '../components/SingleRestaurantFromList
 //Maps
 import Map from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
+
 // Securely imports our secret token.
 const api_key = import.meta.env.VITE_APP_MAPBOX_TOKEN
+
+//import ReactMapboxGL, { Layer, Feature } from 'react-mapbox-gl'
+// var ReactMapboxGL = require('react-mapbox-gl')
+// var Layer = ReactMapboxGL.Layer
+// var Feature = ReactMapboxGL.Feature
+//require('mapbox-gl/dist/mapbox-gl.css')
 
 export function Restaurants() {
   // Start of search bar abilities.
@@ -55,20 +62,37 @@ export function Restaurants() {
 
       <section className="map">
         {/* {<img alt="Example Map" src={map} />} */}
-        <div>Words!</div>
+
         {
           <Map
+            style={{ width: 400, height: 300 }}
             mapboxAccessToken={api_key}
             initialViewState={{
               longitude: -82.66090611749074,
               latitude: 27.77101804911986,
               zoom: 8,
             }}
-            style={{ width: 400, height: 300 }}
             mapStyle="mapbox://styles/mapbox/streets-v9"
           />
         }
       </section>
+      {/* <>
+        <MapBoxObject
+          style="mapbox://styles/mapbox/streets-v9"
+          containerStyle={{
+            height: '100vh',
+            width: '100vw',
+          }}
+        >
+          <Layer
+            type="symbol"
+            id="marker"
+            layout={{ 'icon-image': 'marker-15' }}
+          >
+            <Feature coordinates={[-0.481747846041145, 51.3233379650232]} />
+          </Layer>
+        </MapBoxObject>
+      </> */}
 
       <ul className="results">
         {/* Logic added directly below to dynamically display list of restaurants. */}

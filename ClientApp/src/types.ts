@@ -12,6 +12,8 @@ export type RestaurantType = {
   description: string
   address: string
   telephone: string
+  // latitude: number
+  // longitude: number
   reviews: ReviewType[]
 }
 
