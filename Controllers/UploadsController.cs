@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -24,12 +26,30 @@ namespace TacoTuesdayThursday.Controllers
             CLOUDINARY_API_SECRET = config["CLOUDINARY_API_SECRET"];
         }
 
+        //Next, we will ensure that we limit our uploads to supported image types.
+        // To do so, we'll make a class property to hold a set of strings of the content types allowed. We will use the HashSet collection type since it is efficient for fast lookups and does not allow for duplicates (unlike a List)
+
+        private readonly HashSet<string> VALID_CONTENT_TYPE = new HashSet<string> {
+            "image/jpg",
+            "image/jpeg",
+            "image/pjpeg",
+            "image/gif",
+            "image/x-png",
+            "image/png",
+        };
+
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [RequestSizeLimit(10_000_000)]
-        //We will now update the controller definition to accept an upload, process it, send it to Cloudinary, and return the Cloudinary URL of the newly uploaded file.
-        public ActionResult Upload()
+        //We will now update the controller definition to accept an upload, process it, send it to Cloudinary, and return the Cloudinary URL of the newly uploaded file. IFormFile.
+        public ActionResult Upload(IFormFile file)
         {
+            // Check this content type against a set of allowed content types from HashSet.
+            var contentType = file.ContentType.ToLower();
+            if (!VALID_CONTENT_TYPE.Contains(contentType))
+            {
+                return BadRequest("Not Valid Image Type");
+            }
             return Ok();
         }
     }
