@@ -14,7 +14,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 
 // Securely imports our secret token. MAPBOX service.
 const api_key = import.meta.env.VITE_APP_MAPBOX_TOKEN
-const api_key2 = import.meta.env.VITE_APP_MAPBOX_TOKEN2
+//const api_key2 = import.meta.env.VITE_APP_MAPBOX_TOKEN2
 
 // react-map-gl
 // import * as turf from '@turf/turf'
