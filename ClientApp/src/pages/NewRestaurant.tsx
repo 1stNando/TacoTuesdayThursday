@@ -39,6 +39,7 @@ export function NewRestaurant() {
     address: '',
     telephone: '',
     reviews: [],
+    //Dropzone
     photoURL: '',
 
     // latitude: undefined,
@@ -116,6 +117,7 @@ export function NewRestaurant() {
     onDrop: onDropFile,
   })
 
+  //
   const uploadFileMutation = useMutation(uploadFile, {
     onSuccess: function (apiResponse: UploadResponse) {
       const url = apiResponse.url
