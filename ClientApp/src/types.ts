@@ -15,6 +15,11 @@ export type RestaurantType = {
   // latitude: number
   // longitude: number
   reviews: ReviewType[]
+  photoURL: string
+}
+// Cloudinary type for handling API results:
+export type UploadResponse = {
+  url: string
 }
 
 export type ReviewType = {

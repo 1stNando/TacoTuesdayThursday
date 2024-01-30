@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { APIError, RestaurantType } from '../types'
+import { APIError, RestaurantType, UploadResponse } from '../types'
 import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router'
 import { authHeader } from '../auth'
-// import { useNavigate } from 'react-router-dom'
-// import { Restaurants } from './Restaurants'
+import { useDropzone } from 'react-dropzone'
 
 // We will send new data to the API, returns a promise. Ties in with submitting form new restaurant.
 async function submitNewRestaurant(restaurantToCreate: RestaurantType) {
@@ -36,6 +35,8 @@ export function NewRestaurant() {
     address: '',
     telephone: '',
     reviews: [],
+    photoURL: '',
+
     // latitude: undefined,
     // longitude: undefined,
   })
@@ -71,6 +72,56 @@ export function NewRestaurant() {
 
     setNewRestaurant(updatedRestaurant)
   }
+
+  //Cloudinary
+  async function uploadFile(fileToUpload: File) {
+    // Create a formData object so we can send this
+    // to the API that is expecting some form data.
+    const formData = new FormData()
+
+    // Append a field that is the form upload itself
+    formData.append('file', fileToUpload)
+
+    // Use fetch to send an authorization header and
+    // a body containing the form data with the file
+    const response = await fetch('/api/Uploads', {
+      method: 'POST',
+      headers: {
+        Authorization: authHeader(),
+      },
+      body: formData,
+    })
+
+    if (response.ok) {
+      return response.json()
+    } else {
+      throw 'Unable to upload image!'
+    }
+  }
+
+  function onDropFile(acceptedFiles: File[]) {
+    // Do something with the files
+    const fileToUpload = acceptedFiles[0]
+    console.log(fileToUpload)
+
+    uploadFileMutation.mutate(fileToUpload)
+  }
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: onDropFile,
+  })
+
+  const uploadFileMutation = useMutation(uploadFile, {
+    onSuccess: function (apiResponse: UploadResponse) {
+      const url = apiResponse.url
+
+      setNewRestaurant({ ...newRestaurant, photoURL: url })
+    },
+
+    onError: function (error: string) {
+      setErrorMessage(error)
+    },
+  }) // End of Cloudinary items.
 
   return (
     <main className="page">
@@ -120,8 +171,14 @@ export function NewRestaurant() {
           />
         </p>
         <p className="form-input">
-          <label htmlFor="picture">Picture</label>
-          <input type="file" name="picture" />
+          <div className="file-drop-zone">
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              {isDragActive
+                ? 'Drop the files here ...'
+                : 'Drag a picture of the restaurant here to upload!'}
+            </div>
+          </div>
         </p>
         <p>
           <input type="submit" value="Submit" />

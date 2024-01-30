@@ -19,6 +19,9 @@ namespace TacoTuesdayThursday.Models
 
                 public string Telephone { get; set; }
 
+                //Cloudinary. Note this only allows for one photo per restaurant.  
+                public string PhotoURL { get; set; }
+
                 public List<Review> Reviews { get; set; }
 
                 // Storing the User that Created Restaurants and Reviews. Handbook.
