@@ -190,6 +190,17 @@ export function NewRestaurant() {
             onChange={handleStringFieldChange}
           />
         </p>
+
+        {newRestaurant.photoURL ? (
+          <p>
+            <img
+              alt="Restaurant photo"
+              width={200}
+              src={newRestaurant.photoURL}
+            />
+          </p>
+        ) : null}
+
         <p className="form-input">
           <div className="file-drop-zone">
             <div {...getRootProps()}>
