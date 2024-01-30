@@ -27,6 +27,10 @@ async function submitNewRestaurant(restaurantToCreate: RestaurantType) {
 export function NewRestaurant() {
   // 1:00:30 minute. Setting a state to track an error message upon required field input on new restaurant.
   const [errorMessage, setErrorMessage] = useState('')
+  const history = useNavigate()
+
+  // Dropzone message during uploading image.
+  const [isUploading, setIsUploading] = useState(false)
   // Day 2 start: Create a state to track a new restaurant creation.
   const [newRestaurant, setNewRestaurant] = useState<RestaurantType>({
     id: undefined,
@@ -41,7 +45,6 @@ export function NewRestaurant() {
     // longitude: undefined,
   })
 
-  const history = useNavigate()
   // Submitting the form: useMutation takes in an object, and an optional ,{function} to execute after mutation. We wanted to useHistory to navigate back to the "home" page. But was unable to so far.
   const createNewRestaurant = useMutation(submitNewRestaurant, {
     onSuccess: function () {
@@ -104,6 +107,8 @@ export function NewRestaurant() {
     const fileToUpload = acceptedFiles[0]
     console.log(fileToUpload)
 
+    setIsUploading(true)
+
     uploadFileMutation.mutate(fileToUpload)
   }
 
@@ -121,7 +126,22 @@ export function NewRestaurant() {
     onError: function (error: string) {
       setErrorMessage(error)
     },
-  }) // End of Cloudinary items.
+
+    //Dropzone message item.
+    onSettled: function () {
+      setIsUploading(false)
+    },
+  })
+
+  //
+  let dropZoneMessage = 'Drag a picture of the restaurant here to upload!'
+  if (isUploading) {
+    dropZoneMessage = 'Uploading now...'
+  }
+  if (isDragActive) {
+    dropZoneMessage = 'Drop the files here ...'
+  }
+  // End of Cloudinary items.
 
   return (
     <main className="page">
@@ -174,9 +194,7 @@ export function NewRestaurant() {
           <div className="file-drop-zone">
             <div {...getRootProps()}>
               <input {...getInputProps()} />
-              {isDragActive
-                ? 'Drop the files here ...'
-                : 'Drag a picture of the restaurant here to upload!'}
+              {dropZoneMessage}
             </div>
           </div>
         </p>
