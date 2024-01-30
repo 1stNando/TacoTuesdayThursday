@@ -42,6 +42,7 @@ const NullRestaurant: RestaurantType = {
   description: '',
   telephone: '',
   reviews: [],
+  photoURL: '',
 }
 
 // Define the date format to be used when submitting new reviews.
