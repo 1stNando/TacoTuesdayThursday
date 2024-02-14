@@ -8,15 +8,22 @@ export interface CSSStarsProperties extends CSSProperties {
 export type RestaurantType = {
   // This field is optional because we won't always have an id field. For example, when creating a new restaurant.
   id: number | undefined
+  userId: number | undefined
   name: string
   description: string
   address: string
   telephone: string
-  // latitude: number
-  // longitude: number
+  latitude: number | undefined
+  longitude: number | undefined
   reviews: ReviewType[]
   photoURL: string
 }
+
+export type NewRestaurantType = Omit<
+  RestaurantType,
+  'latitude' | 'longitude' | 'userId'
+>
+
 // Cloudinary type for handling API results:
 export type UploadResponse = {
   url: string

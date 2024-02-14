@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { CSSStarsProperties, NewReviewType, RestaurantType } from '../types'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useQuery } from 'react-query'
 import format from 'date-fns/format'
-import { authHeader, isLoggedIn } from '../auth'
+import { authHeader, getUserId, isLoggedIn } from '../auth'
 import { Stars } from '../components/Stars'
-//import { isLoggedIn } from '../auth'
 
 async function loadOneRestaurant(id: string | undefined) {
   const response = await fetch(`/api/restaurants/${id}`)
@@ -17,8 +16,13 @@ async function loadOneRestaurant(id: string | undefined) {
   }
 }
 
-// Handles the submission of a new review to the api.
+// Takes a review object and submits it to the API
+//
+// Returns a promise of the JSON response of the API
+// when successful, throws the JSON response of the API
+// when there is a failure.
 async function submitNewReview(review: NewReviewType) {
+  // Calls fetch
   const response = await fetch(`/api/Reviews`, {
     method: 'POST',
     headers: {
@@ -28,6 +32,7 @@ async function submitNewReview(review: NewReviewType) {
     body: JSON.stringify(review),
   })
 
+  // If response is ok
   if (response.ok) {
     return response.json()
   } else {
@@ -35,12 +40,38 @@ async function submitNewReview(review: NewReviewType) {
   }
 }
 
+// Delete restaurant
+async function handleDelete(id: number | undefined) {
+  // If we don't know the id, don't do anything.
+  // This could happen because the restaurant might have an undefined id before it is loaded. In that case we don't want to call the API since the URL won't be correct.
+  if (id === undefined) {
+    return
+  }
+  const response = await fetch(`/api/Restaurants/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'content-type': 'application/json',
+      Authorization: authHeader(),
+    },
+  })
+
+  if (response.ok) {
+    return response.json()
+  } else {
+    throw await response.json()
+  }
+}
+
+// Null object Pattern
 const NullRestaurant: RestaurantType = {
   id: undefined,
+  userId: 0,
   name: '',
   address: '',
   description: '',
   telephone: '',
+  latitude: 0,
+  longitude: 0,
   reviews: [],
   photoURL: '',
 }
@@ -49,12 +80,9 @@ const NullRestaurant: RestaurantType = {
 const dateFormat = `EEEE, MMMM do, yyyy 'at' h:mm aaa`
 
 export function Restaurant() {
-  const { id } = useParams<{ id: string }>()
+  const history = useNavigate()
 
-  const { refetch, data: restaurant = NullRestaurant } =
-    useQuery<RestaurantType>(['one-restaurant', id], () =>
-      loadOneRestaurant(id)
-    )
+  const { id } = useParams<{ id: string }>()
 
   // define the shape of the state we need to track for new reviews to be sent.
   const [newReview, setNewReview] = useState<NewReviewType>({
@@ -66,6 +94,11 @@ export function Restaurant() {
     restaurantId: Number(id),
   })
 
+  const { refetch, data: restaurant = NullRestaurant } =
+    useQuery<RestaurantType>(['one-restaurant', id], () =>
+      loadOneRestaurant(id)
+    )
+
   // This clears out the new restaurant fields upon submission.
   const createNewReview = useMutation(submitNewReview, {
     onSuccess: function () {
@@ -76,6 +109,16 @@ export function Restaurant() {
         stars: 5,
         summary: '',
       })
+    },
+  })
+
+  // Delete restaurant
+  const deleteRestaurant = useMutation(handleDelete, {
+    onSuccess: function () {
+      history('/')
+    },
+    onError: function () {
+      console.log('ooops, error')
     },
   })
 
@@ -106,9 +149,26 @@ export function Restaurant() {
         <Stars restaurant={restaurant} />({restaurant.reviews.length})
       </p>
       <address>{restaurant.address}</address>
-      {restaurant.photoURL ? (
-        <img alt="Restaurant Photo" width={200} src={restaurant.photoURL} />
-      ) : null}
+      <p>
+        {restaurant.photoURL ? (
+          <img alt="Restaurant Photo" width={200} src={restaurant.photoURL} />
+        ) : null}
+      </p>
+      <p>
+        {/* Delete Reviews */}
+        {restaurant.userId === getUserId() ? (
+          <button
+            onClick={function (event) {
+              event.preventDefault()
+
+              deleteRestaurant.mutate(restaurant.id)
+            }}
+          >
+            Delete!
+          </button>
+        ) : null}
+      </p>
+
       <hr />
       <h3>Reviews for {restaurant.name}</h3>
       <ul className="reviews">

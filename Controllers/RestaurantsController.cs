@@ -186,17 +186,39 @@ namespace TacoTuesdayThursday.Controllers
         }
 
         [HttpDelete("{id}")]
+        // Adds authentication requirement to this endpoint
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
         public async Task<IActionResult> DeleteRestaurant(int id)
         {
-            var restaurant = await _context.Restaurants.FindAsync(id);
+            // Find this restaurant by looking for the specific id
+            // var restaurant = await _context.Restaurants.FindAsync(id);
+
+            // Use this instead to give the user a 404
+            var restaurant = await _context.Restaurants.Where(restaurant => restaurant.UserId == GetCurrentUserId()).FirstOrDefaultAsync();
 
             if (restaurant == null)
             {
+                // If id not found, return `404` not found
                 return NotFound();
             }
 
+            // Add authentication method to ensure authentic user only can delete.
+            // If the current user ( which we trust the ID since it comes from the JWT) is exactly the same ID recorded in the restaurant, then allow this. Otherwise, if they don't match, tell the user "Unauthorized" and do not proceed. 
+            if (restaurant.UserId != GetCurrentUserId())
+            {
+                // Make a custom error response
+                var response = new
+                {
+                    status = 401,
+                    errors = new List<string>() { "Not Authorized" }
+                };
+            }
+
+            // Tell the database we want to remove this record.
             _context.Restaurants.Remove(restaurant);
 
+            // Tell the database to perform the deletion
             await _context.SaveChangesAsync();
 
             return Ok(restaurant);

@@ -34,6 +34,7 @@ export function NewRestaurant() {
   // Day 2 start: Create a state to track a new restaurant creation.
   const [newRestaurant, setNewRestaurant] = useState<RestaurantType>({
     id: undefined,
+    userId: undefined,
     name: '',
     description: '',
     address: '',
@@ -42,8 +43,8 @@ export function NewRestaurant() {
     //Dropzone
     photoURL: '',
 
-    // latitude: undefined,
-    // longitude: undefined,
+    latitude: undefined,
+    longitude: undefined,
   })
 
   // Submitting the form: useMutation takes in an object, and an optional ,{function} to execute after mutation. We wanted to useHistory to navigate back to the "home" page. But was unable to so far.
