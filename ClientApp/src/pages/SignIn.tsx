@@ -1,22 +1,8 @@
 import React, { useState } from 'react'
-import { APIError, LoginSuccess, LoginUserType } from '../types'
+import { APIError, LoginUserType } from '../types'
 import { useMutation } from 'react-query'
 import { recordAuthentication } from '../auth'
-
-// Notice how we are defining the type expected. It takes the data typed in loginUser! Nice. It returns a: Promise<>.
-async function loginUser(user: LoginUserType): Promise<LoginSuccess> {
-  const response = await fetch('/api/Sessions', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(user),
-  })
-
-  if (response.ok) {
-    return response.json()
-  } else {
-    throw await response.json()
-  }
-}
+import { loginUser } from '../api'
 
 export function SignIn() {
   const [errorMessage, setErrorMessage] = useState('')

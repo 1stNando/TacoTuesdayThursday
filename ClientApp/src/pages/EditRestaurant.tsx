@@ -9,35 +9,7 @@ import { useMutation, useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router'
 import { authHeader } from '../auth'
 import { useDropzone } from 'react-dropzone'
-
-// We will send new data to the API, returns a promise. Ties in with submitting form new restaurant.
-async function submitEditedRestaurant(restaurantToUpdate: RestaurantType) {
-  const response = await fetch(`/api/Restaurants/${restaurantToUpdate.id}`, {
-    method: 'PUT',
-    headers: {
-      'content-type': 'application/json',
-      Authorization: authHeader(),
-    },
-    body: JSON.stringify(restaurantToUpdate),
-  })
-
-  // deals with logic to throw an error message if user tries to submit a new restaurant without the required fields.
-  if (response.ok) {
-    return response.json()
-  } else {
-    throw await response.json()
-  }
-}
-
-async function loadOneRestaurant(id: string | undefined) {
-  const response = await fetch(`/api/restaurants/${id}`)
-
-  if (response.ok) {
-    return response.json()
-  } else {
-    throw await response.json()
-  }
-}
+import { loadOneRestaurant, submitEditedRestaurant } from '../api'
 
 export function EditRestaurant() {
   const history = useNavigate()

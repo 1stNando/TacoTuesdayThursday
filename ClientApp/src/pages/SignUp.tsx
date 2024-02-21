@@ -2,21 +2,7 @@ import React, { useState } from 'react'
 import { APIError, NewUserType } from '../types'
 import { useNavigate } from 'react-router'
 import { useMutation } from 'react-query'
-
-// Function to deal with 'POST' the new User created to the API.
-async function submitNewUser(newUser: NewUserType) {
-  const response = await fetch('/api/Users', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(newUser),
-  })
-
-  if (response.ok) {
-    return response.json()
-  } else {
-    throw await response.json()
-  }
-}
+import { submitNewUser } from '../api'
 
 export function SignUp() {
   //Add useHistory perhaps??(update uses useNavigate instead), to redirect the user after signing up

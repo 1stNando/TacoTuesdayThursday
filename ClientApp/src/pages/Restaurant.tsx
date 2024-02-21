@@ -3,83 +3,18 @@ import { CSSStarsProperties, NewReviewType, RestaurantType } from '../types'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useQuery } from 'react-query'
 import format from 'date-fns/format'
-import { authHeader, getUserId, isLoggedIn } from '../auth'
+import { getUserId, isLoggedIn } from '../auth'
 import { Stars } from '../components/Stars'
-
-async function loadOneRestaurant(id: string | undefined) {
-  const response = await fetch(`/api/restaurants/${id}`)
-
-  if (response.ok) {
-    return response.json()
-  } else {
-    throw await response.json()
-  }
-}
-
-// Takes a review object and submits it to the API
-//
-// Returns a promise of the JSON response of the API
-// when successful, throws the JSON response of the API
-// when there is a failure.
-async function submitNewReview(review: NewReviewType) {
-  // Calls fetch
-  const response = await fetch(`/api/Reviews`, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      Authorization: authHeader(),
-    },
-    body: JSON.stringify(review),
-  })
-
-  // If response is ok
-  if (response.ok) {
-    return response.json()
-  } else {
-    throw await response.json()
-  }
-}
-
-// Delete restaurant
-async function handleDelete(id: number | undefined) {
-  // If we don't know the id, don't do anything.
-  // This could happen because the restaurant might have an undefined id before it is loaded. In that case we don't want to call the API since the URL won't be correct.
-  if (id === undefined) {
-    return
-  }
-  const response = await fetch(`/api/Restaurants/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'content-type': 'application/json',
-      Authorization: authHeader(),
-    },
-  })
-
-  if (response.ok) {
-    return response.json()
-  } else {
-    throw await response.json()
-  }
-}
-
-// Null object Pattern
-const NullRestaurant: RestaurantType = {
-  id: undefined,
-  userId: 0,
-  name: '',
-  address: '',
-  description: '',
-  telephone: '',
-  latitude: 0,
-  longitude: 0,
-  reviews: [],
-  photoURL: '',
-}
-
-// Define the date format to be used when submitting new reviews.
-const dateFormat = `EEEE, MMMM do, yyyy 'at' h:mm aaa`
+import {
+  NullRestaurant,
+  handleDelete,
+  loadOneRestaurant,
+  submitNewReview,
+} from '../api'
 
 export function Restaurant() {
+  // Define the date format to be used when submitting new reviews.
+  const dateFormat = `EEEE, MMMM do, yyyy 'at' h:mm aaa`
   const history = useNavigate()
 
   const { id } = useParams<{ id: string }>()
