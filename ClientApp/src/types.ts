@@ -19,10 +19,8 @@ export type RestaurantType = {
   photoURL: string
 }
 
-export type NewRestaurantType = Omit<
-  RestaurantType,
-  'latitude' | 'longitude' | 'userId'
->
+// export type NewRestaurantType = Omit<RestaurantType, 'latitude' | 'longitude' | 'userId'>
+export type NewRestaurantType = RestaurantType
 
 // Cloudinary type for handling API results:
 export type UploadResponse = {

@@ -324,7 +324,7 @@ footer .fa-heart {
 }
 
 button,
-input[type='submit'] {
+.buttonClass input[type='submit'] {
   cursor: pointer;
   background: var(--purple-1);
   font-family: Inika, serif;
@@ -427,14 +427,7 @@ label[for]:hover {
 .mapboxgl-canvas {
   height: 50% important;
   position: fixed !important;
-  margin: 600px 1100px auto;
+  margin: 250px 1070px auto;
 
-  border: solid 5px black;
-}
-
-.map2 {
-  border: solid 10px yellow;
-  height: 50% important;
-  position: fixed;
-  margin: auto;
+  border: solid 25px var(--purple-1);
 }

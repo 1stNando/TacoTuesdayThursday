@@ -6,6 +6,7 @@ import { NewRestaurant } from './pages/NewRestaurant'
 import { SignUp } from './pages/SignUp'
 import { SignIn } from './pages/SignIn'
 import { getUser, isLoggedIn, logout } from './auth'
+import { EditRestaurant } from './pages/EditRestaurant'
 
 export function App() {
   return (
@@ -19,6 +20,7 @@ export function App() {
         <Route path="/new" element={<NewRestaurant />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/signin" element={<EditRestaurant />} />
       </Routes>
 
       <footer>

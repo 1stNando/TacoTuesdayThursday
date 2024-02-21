@@ -11,6 +11,7 @@ import { Restaurant } from './pages/Restaurant'
 import './index.scss'
 import { SignUp } from './pages/SignUp'
 import { SignIn } from './pages/SignIn'
+import { EditRestaurant } from './pages/EditRestaurant'
 
 //Instantiates the query client method we need to query the database.
 const queryClient = new QueryClient()
@@ -35,6 +36,10 @@ const routingObject = createBrowserRouter([
   {
     path: '/signin',
     element: <SignIn />,
+  },
+  {
+    path: '/restaurants/:id/edit',
+    element: <EditRestaurant />,
   },
 ])
 

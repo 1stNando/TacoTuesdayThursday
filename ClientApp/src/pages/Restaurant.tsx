@@ -154,20 +154,31 @@ export function Restaurant() {
           <img alt="Restaurant Photo" width={200} src={restaurant.photoURL} />
         ) : null}
       </p>
-      <p>
-        {/* Delete Reviews */}
-        {restaurant.userId === getUserId() ? (
-          <button
-            onClick={function (event) {
-              event.preventDefault()
 
-              deleteRestaurant.mutate(restaurant.id)
-            }}
-          >
-            Delete!
-          </button>
-        ) : null}
-      </p>
+      {/* Delete Reviews */}
+      {restaurant.userId === getUserId() ? (
+        <>
+          <p>
+            <button
+              onClick={function (event) {
+                event.preventDefault()
+
+                deleteRestaurant.mutate(restaurant.id)
+              }}
+            >
+              Delete!
+            </button>
+          </p>
+          <p>
+            <Link
+              className="buttonClass"
+              to={`/restaurants/${restaurant.id}/edit`}
+            >
+              Edit
+            </Link>
+          </p>
+        </>
+      ) : null}
 
       <hr />
       <h3>Reviews for {restaurant.name}</h3>
