@@ -105,10 +105,7 @@ export function Restaurant() {
             </button>
           </p>
           <p>
-            <Link
-              className="buttonClass"
-              to={`/restaurants/${restaurant.id}/edit`}
-            >
+            <Link className="button" to={`/restaurants/${restaurant.id}/edit`}>
               Edit
             </Link>
           </p>
