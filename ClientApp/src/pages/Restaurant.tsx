@@ -71,6 +71,32 @@ export function Restaurant() {
     setNewReview({ ...newReview, stars: newStars })
   }
 
+  //Delete review UNDER CONSTRUCTION! need to work on it further///////////////////
+  // const [restaurant, setRestaurant] = useState({
+  //   name: '',
+  //   description: '',
+  //   address: '',
+  //   reviews: [],
+  // })
+
+  // Delete a Review
+  // async function handleDeleteReview(event, reviewId) {
+  //   event.preventDefault()
+
+  //   await fetch(`/api/Reviews/${reviewId}`, {
+  //     method: 'DELETE',
+  //     headers: { 'content-type': 'application/json', ...authHeader() },
+  //   })
+
+  //   const response = await fetch(`/api/Restaurants/${id}`)
+
+  //   if (response.ok) {
+  //     const apiData = await response.json()
+
+  //     setRestaurant(apiData)
+  //   }
+  // }
+
   return (
     // This is the view of  ONE RESTAURANT, showing the reviews and star ratings. SINGLE VIEW PAGE.
     <main className="page">
@@ -90,7 +116,7 @@ export function Restaurant() {
         ) : null}
       </p>
 
-      {/* Delete Reviews */}
+      {/* Delete Restaurant */}
       {restaurant.userId === getUserId() ? (
         <>
           <p>
@@ -135,6 +161,21 @@ export function Restaurant() {
                   : null}
               </time>
             </div>
+
+            {/* Review Delete */}
+            {review.user.id === getUserId() ? (
+              <div>
+                <button
+                  className="small"
+                  // In the onClick, we send both the event (to prevent any default behavior) and the currently displayed review id.
+                  // onClick={function (event) {
+                  //   handleDeleteReview(event, review.id)
+                  // }}
+                >
+                  Delete review
+                </button>
+              </div>
+            ) : null}
           </li>
         ))}
       </ul>

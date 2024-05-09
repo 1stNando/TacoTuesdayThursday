@@ -25,7 +25,8 @@ export function App() {
 
       <footer>
         <p>
-          Built with <i className="fa fa-heart"></i> in St Petersburg, Florida.
+          Built with XOXO <i className="fa fa-heart"></i> in St Petersburg,
+          Florida.
         </p>
       </footer>
     </>
@@ -45,7 +46,7 @@ function LoggedInNav() {
       <li>
         <nav>
           <Link to="/new">
-            <i className="fa fa-plus"></i> Restaurant
+            <i className="fa fa-plus"></i> Restaurant +
           </Link>
           <a
             href="/new"

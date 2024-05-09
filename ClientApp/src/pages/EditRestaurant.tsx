@@ -19,22 +19,6 @@ export function EditRestaurant() {
   // Dropzone message during uploading image.
   const [isUploading, setIsUploading] = useState(false)
 
-  const { id } = useParams<{ id: string }>()
-
-  // Use the query to load the existing restaurant
-  // and when we get something back, call setUpdatedRestaurant to update our state.
-  useQuery<RestaurantType>(
-    ['one-restaurant', id],
-    () => loadOneRestaurant(id),
-    {
-      onSuccess: function (restaurantBeingLoaded) {
-        console.log('Loaded the restaurant!')
-
-        setUpdatingRestaurant(restaurantBeingLoaded)
-      },
-    }
-  )
-
   const [updatingRestaurant, setUpdatingRestaurant] =
     useState<NewRestaurantType>({
       id: undefined,
@@ -50,6 +34,22 @@ export function EditRestaurant() {
       latitude: undefined,
       longitude: undefined,
     })
+
+  const { id } = useParams<{ id: string }>()
+
+  // Use the query to load the existing restaurant
+  // and when we get something back, call setUpdatedRestaurant to update our state.
+  useQuery<RestaurantType>(
+    ['one-restaurant', id],
+    () => loadOneRestaurant(id),
+    {
+      onSuccess: function (restaurantBeingLoaded) {
+        console.log('Loaded the restaurant!')
+
+        setUpdatingRestaurant(restaurantBeingLoaded)
+      },
+    }
+  )
 
   // Submitting the form: useMutation takes in an object, and an optional ,{function} to execute after mutation. We wanted to useHistory to navigate back to the "home" page. But was unable to so far.
   const updateTheRestaurant = useMutation(submitEditedRestaurant, {

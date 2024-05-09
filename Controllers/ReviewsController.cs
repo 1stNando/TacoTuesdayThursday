@@ -103,6 +103,7 @@ namespace TacoTuesdayThursday.Controllers
         // to grab the id from the URL. It is then made available to us as the `id` argument to the method.
         //
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DeleteReview(int id)
         {
             // Find this review by looking for the specific id
@@ -113,14 +114,29 @@ namespace TacoTuesdayThursday.Controllers
                 return NotFound();
             }
 
+            if (review.UserId != GetCurrentUserId())
+            {
+                //Make a custom error response
+                var response = new
+                {
+                    status = 401,
+                    errors = new List<string>() { "Not Authorized" }
+                };
+                return Unauthorized(response);
+            }
+
             // Tell the database we want to remove this record
             _context.Reviews.Remove(review);
 
             // Tell the database to perform the deletion
             await _context.SaveChangesAsync();
 
-            // Returns a copy of the deleted data
-            return Ok(review);
+            // return NoContent to indicate the update was done. Alternatively you can use the
+            // following to send back a copy of the deleted data.
+            //
+            // return Ok(review)
+            //
+            return NoContent();
         }
 
         // Private helper method that looks up an existing review by the supplied id

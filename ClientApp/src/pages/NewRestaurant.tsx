@@ -13,6 +13,7 @@ export function NewRestaurant() {
 
   // Dropzone message during uploading image.
   const [isUploading, setIsUploading] = useState(false)
+
   // Day 2 start: Create a state to track a new restaurant creation.
   const [newRestaurant, setNewRestaurant] = useState<RestaurantType>({
     id: undefined,
