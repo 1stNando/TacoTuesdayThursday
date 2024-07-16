@@ -9,7 +9,7 @@ type SingleRestaurantFromListProps = {
 
 export function SingleRestaurantFromList(props: SingleRestaurantFromListProps) {
   return (
-    // This page is like an intermediary between the MAIN landing page and the detail specific "Restaurant" single view page.
+    // This page is between the MAIN landing page and the detail specific "Restaurant" single view page.
     <li key={props.restaurant.id}>
       <h2>
         <Link to={`/restaurants/${props.restaurant.id}`}>

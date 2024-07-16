@@ -28,7 +28,8 @@ export function Restaurants() {
   const [filterText, setFilterText] = useState('')
 
   //Part where USE REACT QUERY: to load all restaurants. This LOADS data at start.
-  // NOTE: In this code const { data: restaurants = [] } = we are destructuring the return of react-query to get the data property and renaming it restaurants.
+  // NOTE: In this code const { data: restaurants = [] } = we are destructuring with default value, the return of react-query to get the data property and renaming it restaurants.
+  //Query Key Dependency: The query key ['restaurants', filterText] includes filterText. react-query uses this key to cache and track the query. Whenever filterText changes, the query is re-run.
   const { data: restaurants = [] } = useQuery<RestaurantType[]>(
     ['restaurants', filterText],
     async function () {
@@ -79,7 +80,7 @@ export function Restaurants() {
       </section>
 
       <ul className="results">
-        {/* Logic added directly below to dynamically display list of restaurants. */}
+        {/* Logic added directly below to dynamically display list. "restaurants" is the data object we obtained from the useQuery data fetch. Mapping Over Restaurants: The restaurants array (fetched data) is mapped over, and for each restaurant, a SingleRestaurantFromList component is rendered. */}
         {restaurants.map(function (restaurant) {
           return (
             <SingleRestaurantFromList
