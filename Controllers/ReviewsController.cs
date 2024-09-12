@@ -10,10 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using TacoTuesday.Models;
 using TacoTuesdayThursday.Models;
 
-
-
-
-
 namespace TacoTuesdayThursday.Controllers
 {
     [Route("api/[controller]")]
